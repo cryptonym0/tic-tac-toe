@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:weightSum="4"
+    android:clipChildren="true"
+    tools:background="#430022">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mainTitle"
+        android:id="@+id/title"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#D7BAC9"
+        android:textStyle="normal|bold"
+        android:textColorLink="#1C0F16" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:weightSum="4">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/startButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="#900049"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="#1C0F16"
+            android:id="@+id/startButton"
+            android:onClick="start"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/rulesButton"
+            android:id="@+id/rulesButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            tools:background="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:background="#BE789C"
+            android:textColor="#1C0F16" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scoresButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="@string/scoresButton"
+            android:background="#900049"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="#1C0F16" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/quitButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            tools:background="@color/colorAccent"
+            android:background="#BE789C"
+            android:textColor="#1C0F16"
+            android:id="@+id/quitButton" />
+
+
+        </LinearLayout>
+</LinearLayout>
