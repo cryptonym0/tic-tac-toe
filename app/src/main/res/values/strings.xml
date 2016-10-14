@@ -6,4 +6,7 @@
     <string name="rulesButton">Rules</string>
     <string name="scoresButton">Scores</string>
     <string name="quitButton">Quit</string>
+
+    <!--Reset Button-->
+    <string name="resetButton">Reset</string>
 </resources>
