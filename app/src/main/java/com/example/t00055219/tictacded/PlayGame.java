@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class PlayGame extends AppCompatActivity {
 
     //Declaring Variables
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,6 @@ public class PlayGame extends AppCompatActivity {
         findViewById(R.id.btn9).setOnClickListener(gameAction);
         findViewById(R.id.btnR).setOnClickListener(gameAction);
 
-
     }
 
     //Game Action handles gameplay
@@ -36,7 +38,7 @@ public class PlayGame extends AppCompatActivity {
     public View.OnClickListener gameAction = new View.OnClickListener() {
         @Override
         public void onClick(View arg0) {
-            Button btn = (Button) arg0;
+            ImageButton btn = (ImageButton) arg0;
 
             switch (btn.getId()) {
 
@@ -44,9 +46,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn1: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+//                        btn.setText(btn.getText());
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -54,9 +56,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn2: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -64,9 +66,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn3: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -74,9 +76,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn4: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -84,9 +86,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn5: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -94,9 +96,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn6: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -104,9 +106,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn7: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -114,9 +116,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn8: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+//                        btn.setText(btn.getText());
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
@@ -124,9 +126,9 @@ public class PlayGame extends AppCompatActivity {
                 case R.id.btn9: {
                     String XO = "X";
                     if (XO.equals("")) {
-                        btn.setText(btn.getText());
+//                        btn.setText(btn.getText());
                     } else {
-                        btn.setText(XO);
+                        btn.setBackgroundResource(R.drawable.star);
                     }
                     break;
                 }
