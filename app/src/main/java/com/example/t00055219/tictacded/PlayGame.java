@@ -51,7 +51,7 @@ public class PlayGame extends AppCompatActivity {
     TextView pCurrent;
     int currentButton;
     //Toast
-    private Toast g;
+    private Toast g, h;
 
 
 
@@ -76,6 +76,7 @@ public class PlayGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
+        h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
 
         //Players
         b = new ImageButton[3][3];
@@ -110,100 +111,105 @@ public class PlayGame extends AppCompatActivity {
         @Override
         public void onClick(View arg0) {
             ImageButton btn = (ImageButton) arg0;
+            if(win){
+                h.show();
+            }
+            else {
 
-            switch (btn.getId()) {
+                switch (btn.getId()) {
 
-                //Button 1
-                case R.id.btn1: {
-                    currentButton = 0;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 1
+                    case R.id.btn1: {
+                        currentButton = 0;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 2
-                case R.id.btn2: {
-                    currentButton = 1;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 2
+                    case R.id.btn2: {
+                        currentButton = 1;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 3
-                case R.id.btn3: {
-                    currentButton = 2;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 3
+                    case R.id.btn3: {
+                        currentButton = 2;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 4
-                case R.id.btn4: {
-                    currentButton = 3;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 4
+                    case R.id.btn4: {
+                        currentButton = 3;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 5
-                case R.id.btn5: {
-                    currentButton = 4;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 5
+                    case R.id.btn5: {
+                        currentButton = 4;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 6
-                case R.id.btn6: {
-                    currentButton = 5;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 6
+                    case R.id.btn6: {
+                        currentButton = 5;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 7
-                case R.id.btn7: {
-                    currentButton = 6;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 7
+                    case R.id.btn7: {
+                        currentButton = 6;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 8
-                case R.id.btn8: {
-                    currentButton = 7;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 8
+                    case R.id.btn8: {
+                        currentButton = 7;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-                //Button 9
-                case R.id.btn9: {
-                    currentButton = 8;
-                    if (filled[currentButton] != 0) {
-                        g.show();
-                    } else {
-                        placeStar(btn);
+                    //Button 9
+                    case R.id.btn9: {
+                        currentButton = 8;
+                        if (filled[currentButton] != 0) {
+                            g.show();
+                        } else {
+                            placeStar(btn);
+                        }
+                        break;
                     }
-                    break;
-                }
-            }//Button Switch
+                }//Button Switch
+            }
         }
     };//On click listener
 
@@ -230,6 +236,8 @@ public class PlayGame extends AppCompatActivity {
         b9.setBackgroundResource(R.color.clearColor);
         //Reset Board
         populateBoard();
+        //Close win
+        win = false;
     }
 
     /*******************************************
@@ -299,12 +307,14 @@ public class PlayGame extends AppCompatActivity {
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(R.drawable.star);
                 pCurrent.setText("Current Player: " + p2Name);
+                checkWin(turn);
                 turn = 2;
             }
             else if(turn == 2){
                 filled[currentButton] = 2;
                 btn.setBackgroundResource(R.drawable.star2);
                 pCurrent.setText("Current Player: " + p1Name);
+                checkWin(turn);
                 turn = 1;
             }else{
                 Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
@@ -320,6 +330,44 @@ public class PlayGame extends AppCompatActivity {
     /*******************************************
      * Check If Win Method
      * ******************************************/
+    public void checkWin(int c){
+        //This is gunna be messy :)
+
+        //Horizontal win
+        if((filled[0] == c && filled[1] == c && filled[2] == c) |
+           (filled[3] == c && filled[4] == c && filled[5] == c) |
+           (filled[6] == c && filled[7] == c && filled[8] == c)){
+            win = true;
+            pCurrent.setText("Horizontal win!");
+        }
+        //Vertical win
+        else if((filled[0] == c && filled[3] == c && filled[6] == c) |
+                (filled[1] == c && filled[4] == c && filled[7] == c) |
+                (filled[2] == c && filled[5] == c && filled[8] == c)){
+            win = true;
+            pCurrent.setText("Vertical win!");
+        }
+        //Diagonal Win
+        else if((filled[0] == c && filled[4] == c && filled[8] == c) |
+                (filled[6] == c && filled[4] == c && filled[2] == c)){
+            win = true;
+            pCurrent.setText("Diagonal win!");
+        }
+        //Draw
+        else if(isFull(filled)){
+            pCurrent.setText("DRAW!");
+
+        }
+
+    }
+
+    public boolean isFull(int a[]){
+        boolean v = true;
+        for(int i=0; i<a.length;++i){
+            if(a[i]==0){return v=false;}
+        }
+        return v;
+    }
 
 
 }
