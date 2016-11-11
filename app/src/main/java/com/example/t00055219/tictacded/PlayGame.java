@@ -7,11 +7,65 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import static android.R.attr.x;
+import static android.R.attr.y;
+import static com.example.t00055219.tictacded.R.id.currentPlayer;
 
 public class PlayGame extends AppCompatActivity {
 
     //Declaring Variables
+    /***
+    * Players:
+     * Player 1 - Human
+     * Player 2 - Human
+     * Player 3 - AI
+     *
+     * Scores:
+     * Score 1
+     * Score 2
+     *
+     * Winner
+     * Boolean if a win exists
+     *
+     *Algorithm:
+     * If the game is over, return the score from X's perspective.
+     Otherwise get a list of new game states for every possible move
+     Create a scores list
+     For each of these states add the minimax result of that state to the scores list
+     If it's X's turn, return the maximum score from the scores list
+     If it's O's turn, return the minimum score from the scores list
+    * */
 
+    //Player Names
+    String p1Name = "Player 1";
+    String p2Name = "Player 2";
+    int turn = 1;
+    //Player Scores
+    int p1Score =0, p2Score =0;
+    //bool
+    boolean win = false;
+    //Textview to see current player
+    TextView pCurrent;
+
+
+
+    //Array for board
+    public static int[][] board = new int[3][3];
+    public static int[] filled = new int[9];
+    //Current buttin
+    ImageButton b[][];
+
+    //Possible Wins
+
+    public int move = 0;
+
+//    private int[][] possibleMoves = {
+//            {1, 1}, {0, 0}, {0, 2}, {2, 0}, {2, 2},
+//            {0, 1}, {1, 0}, {1, 2}, {2, 1}};
+
+    //Make shared Preferences
 
 
     @Override
@@ -19,17 +73,14 @@ public class PlayGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        //Listeners for buttins
-        findViewById(R.id.btn1).setOnClickListener(gameAction);
-        findViewById(R.id.btn2).setOnClickListener(gameAction);
-        findViewById(R.id.btn3).setOnClickListener(gameAction);
-        findViewById(R.id.btn4).setOnClickListener(gameAction);
-        findViewById(R.id.btn5).setOnClickListener(gameAction);
-        findViewById(R.id.btn6).setOnClickListener(gameAction);
-        findViewById(R.id.btn7).setOnClickListener(gameAction);
-        findViewById(R.id.btn8).setOnClickListener(gameAction);
-        findViewById(R.id.btn9).setOnClickListener(gameAction);
-        findViewById(R.id.btnR).setOnClickListener(gameAction);
+        //Players
+        b = new ImageButton[3][3];
+        pCurrent = (TextView)findViewById(currentPlayer);
+        pCurrent.setText("Current Player: " + p1Name);
+        setOnClickListeners();
+
+
+
 
     }
 
@@ -44,96 +95,90 @@ public class PlayGame extends AppCompatActivity {
 
                 //Button 1
                 case R.id.btn1: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-//                        btn.setText(btn.getText());
+                    if (filled[0] == 1) {
+                        pCurrent.setText("Current Player: YOUZ A FOOL " + p1Name);
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[0] = 1;
+
                     }
                     break;
                 }
                 //Button 2
                 case R.id.btn2: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-
+                    if (filled[1] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[1] = 1;
                     }
                     break;
                 }
                 //Button 3
                 case R.id.btn3: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-
+                    if (filled[2] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[2] = 1;
                     }
                     break;
                 }
                 //Button 4
                 case R.id.btn4: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-
+                    if (filled[3] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[3] = 1;
                     }
                     break;
                 }
                 //Button 5
                 case R.id.btn5: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-
+                    if (filled[4] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[4] = 1;
                     }
                     break;
                 }
                 //Button 6
                 case R.id.btn6: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-
+                    if (filled[5] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[5] = 1;
                     }
                     break;
                 }
                 //Button 7
                 case R.id.btn7: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-
+                    if (filled[6] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[6] = 1;
                     }
                     break;
                 }
                 //Button 8
                 case R.id.btn8: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-//                        btn.setText(btn.getText());
+                    if (filled[7] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[7] = 1;
                     }
                     break;
                 }
                 //Button 9
                 case R.id.btn9: {
-                    String XO = "X";
-                    if (XO.equals("")) {
-//                        btn.setText(btn.getText());
+                    if (filled[8] == 1) {
                     } else {
-                        btn.setBackgroundResource(R.drawable.star);
+                        placeStar(btn);
+                        filled[8] = 1;
                     }
                     break;
                 }
                 //Reset
                 case R.id.btnR: {
+                    Log.d("Reset Called", "RESET CASE");
                     reset();
                     break;
                 }
@@ -143,26 +188,108 @@ public class PlayGame extends AppCompatActivity {
 
     //Reset Function
     public void reset() {
-        Button b1 = (Button) findViewById(R.id.btn1);
-        Button b2 = (Button) findViewById(R.id.btn2);
-        Button b3 = (Button) findViewById(R.id.btn3);
-        Button b4 = (Button) findViewById(R.id.btn4);
-        Button b5 = (Button) findViewById(R.id.btn5);
-        Button b6 = (Button) findViewById(R.id.btn6);
-        Button b7 = (Button) findViewById(R.id.btn7);
-        Button b8 = (Button) findViewById(R.id.btn8);
-        Button b9 = (Button) findViewById(R.id.btn9);
+        Log.d("Reset Called", "Test");
+        ImageButton b1 = (ImageButton) findViewById(R.id.btn1);
+        ImageButton b2 = (ImageButton) findViewById(R.id.btn2);
+        ImageButton b3 = (ImageButton) findViewById(R.id.btn3);
+        ImageButton b4 = (ImageButton) findViewById(R.id.btn4);
+        ImageButton b5 = (ImageButton) findViewById(R.id.btn5);
+        ImageButton b6 = (ImageButton) findViewById(R.id.btn6);
+        ImageButton b7 = (ImageButton) findViewById(R.id.btn7);
+        ImageButton b8 = (ImageButton) findViewById(R.id.btn8);
+        ImageButton b9 = (ImageButton) findViewById(R.id.btn9);
+        Log.d("Reset Called", "Test");
 
-        b1.setText("");
-        b2.setText("");
-        b3.setText("");
-        b4.setText("");
-        b5.setText("");
-        b6.setText("");
-        b7.setText("");
-        b8.setText("");
-        b9.setText("");
+        b1.setBackgroundResource(R.color.clearColor);
+        b2.setBackgroundResource(R.color.clearColor);
+        b3.setBackgroundResource(R.color.clearColor);;
+        b4.setBackgroundResource(R.color.clearColor);
+        b5.setBackgroundResource(R.color.clearColor);
+        b6.setBackgroundResource(R.color.clearColor);
+        b7.setBackgroundResource(R.color.clearColor);
+        b8.setBackgroundResource(R.color.clearColor);
+        b9.setBackgroundResource(R.color.clearColor);
+        //Reset Board
+        populateBoard();
+    }
+
+    /*******************************************
+    * Populate Board
+    * ******************************************/
+    public void populateBoard(){
+        //Ai #TODO
+
+        //Get dem btns
+        b[0][0] = (ImageButton) findViewById(R.id.btn1);
+        b[0][1] = (ImageButton) findViewById(R.id.btn2);
+        b[0][2] = (ImageButton) findViewById(R.id.btn3);
+        b[1][0] = (ImageButton) findViewById(R.id.btn4);
+        b[1][1] = (ImageButton) findViewById(R.id.btn5);
+        b[1][2] = (ImageButton) findViewById(R.id.btn6);
+        b[2][0] = (ImageButton) findViewById(R.id.btn7);
+        b[2][1] = (ImageButton) findViewById(R.id.btn8);
+        b[2][2] = (ImageButton) findViewById(R.id.btn9);
+
+        for(int i=0; i<3; ++i){
+            for(int j=0; j<3; ++j){
+                board[i][j] = 0;
+            }
+        }
+
+        for(int i=0; i<9; ++i){
+            filled[i]=0;
+        }
+
+        //Set Text View #// TODO: 11/10/2016
+
+    }//End Populate Board
+
+    /*******************************************
+     * Player Makes a Move
+     * ******************************************/
+    public static void makeAMove(int move[]){
+        //Input validation?
+
+        //If win check
+        //Else
+        //Int
+        int x, y;
 
     }
+
+    /*******************************************
+     * Check if Win
+     * ******************************************/
+    public void setOnClickListeners(){
+        findViewById(R.id.btn1).setOnClickListener(gameAction);
+        findViewById(R.id.btn2).setOnClickListener(gameAction);
+        findViewById(R.id.btn3).setOnClickListener(gameAction);
+        findViewById(R.id.btn4).setOnClickListener(gameAction);
+        findViewById(R.id.btn5).setOnClickListener(gameAction);
+        findViewById(R.id.btn6).setOnClickListener(gameAction);
+        findViewById(R.id.btn7).setOnClickListener(gameAction);
+        findViewById(R.id.btn8).setOnClickListener(gameAction);
+        findViewById(R.id.btn9).setOnClickListener(gameAction);
+        findViewById(R.id.btnR).setOnClickListener(gameAction);
+
+    }
+
+    /*******************************************
+     * Check if Win
+     * ******************************************/
+    public int placeStar(ImageButton btn){
+        if(turn == 1){
+            btn.setBackgroundResource(R.drawable.star);
+            pCurrent.setText("Current Player: " + p2Name);
+            return turn = 2;
+        }
+        else if(turn == 2){
+            btn.setBackgroundResource(R.drawable.star2);
+            pCurrent.setText("Current Player: " + p1Name);
+            return turn = 1;
+        }
+        else{return 0;}
+    }
+
 
 }
