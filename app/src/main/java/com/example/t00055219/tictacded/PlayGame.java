@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static android.R.attr.x;
 import static android.R.attr.y;
@@ -48,6 +49,9 @@ public class PlayGame extends AppCompatActivity {
     boolean win = false;
     //Textview to see current player
     TextView pCurrent;
+    int currentButton;
+    //Toast
+    private Toast g;
 
 
 
@@ -58,7 +62,6 @@ public class PlayGame extends AppCompatActivity {
     ImageButton b[][];
 
     //Possible Wins
-
     public int move = 0;
 
 //    private int[][] possibleMoves = {
@@ -72,6 +75,7 @@ public class PlayGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
+        g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
 
         //Players
         b = new ImageButton[3][3];
@@ -84,6 +88,22 @@ public class PlayGame extends AppCompatActivity {
 
     }
 
+    //Options action
+    public View.OnClickListener optionAction = new View.OnClickListener(){
+        @Override
+        public void onClick(View arg0) {
+            Button btn = (Button) arg0;
+
+            switch (btn.getId()) {
+                case R.id.btnR: {
+                    Log.d("Reset Called", "RESET CASE");
+                    reset();
+                    break;
+                }
+            }
+        }
+    };
+
     //Game Action handles gameplay
     //listener for which button on the game board was hit
     public View.OnClickListener gameAction = new View.OnClickListener() {
@@ -95,91 +115,92 @@ public class PlayGame extends AppCompatActivity {
 
                 //Button 1
                 case R.id.btn1: {
-                    if (filled[0] == 1) {
-                        pCurrent.setText("Current Player: YOUZ A FOOL " + p1Name);
+                    currentButton = 0;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[0] = 1;
-
                     }
                     break;
                 }
                 //Button 2
                 case R.id.btn2: {
-                    if (filled[1] == 1) {
+                    currentButton = 1;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[1] = 1;
                     }
                     break;
                 }
                 //Button 3
                 case R.id.btn3: {
-                    if (filled[2] == 1) {
+                    currentButton = 2;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[2] = 1;
                     }
                     break;
                 }
                 //Button 4
                 case R.id.btn4: {
-                    if (filled[3] == 1) {
+                    currentButton = 3;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[3] = 1;
                     }
                     break;
                 }
                 //Button 5
                 case R.id.btn5: {
-                    if (filled[4] == 1) {
+                    currentButton = 4;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[4] = 1;
                     }
                     break;
                 }
                 //Button 6
                 case R.id.btn6: {
-                    if (filled[5] == 1) {
+                    currentButton = 5;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[5] = 1;
                     }
                     break;
                 }
                 //Button 7
                 case R.id.btn7: {
-                    if (filled[6] == 1) {
+                    currentButton = 6;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[6] = 1;
                     }
                     break;
                 }
                 //Button 8
                 case R.id.btn8: {
-                    if (filled[7] == 1) {
+                    currentButton = 7;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[7] = 1;
                     }
                     break;
                 }
                 //Button 9
                 case R.id.btn9: {
-                    if (filled[8] == 1) {
+                    currentButton = 8;
+                    if (filled[currentButton] != 0) {
+                        g.show();
                     } else {
                         placeStar(btn);
-                        filled[8] = 1;
                     }
-                    break;
-                }
-                //Reset
-                case R.id.btnR: {
-                    Log.d("Reset Called", "RESET CASE");
-                    reset();
                     break;
                 }
             }//Button Switch
@@ -198,8 +219,6 @@ public class PlayGame extends AppCompatActivity {
         ImageButton b7 = (ImageButton) findViewById(R.id.btn7);
         ImageButton b8 = (ImageButton) findViewById(R.id.btn8);
         ImageButton b9 = (ImageButton) findViewById(R.id.btn9);
-        Log.d("Reset Called", "Test");
-
         b1.setBackgroundResource(R.color.clearColor);
         b2.setBackgroundResource(R.color.clearColor);
         b3.setBackgroundResource(R.color.clearColor);;
@@ -218,7 +237,6 @@ public class PlayGame extends AppCompatActivity {
     * ******************************************/
     public void populateBoard(){
         //Ai #TODO
-
         //Get dem btns
         b[0][0] = (ImageButton) findViewById(R.id.btn1);
         b[0][1] = (ImageButton) findViewById(R.id.btn2);
@@ -229,17 +247,14 @@ public class PlayGame extends AppCompatActivity {
         b[2][0] = (ImageButton) findViewById(R.id.btn7);
         b[2][1] = (ImageButton) findViewById(R.id.btn8);
         b[2][2] = (ImageButton) findViewById(R.id.btn9);
-
         for(int i=0; i<3; ++i){
             for(int j=0; j<3; ++j){
                 board[i][j] = 0;
             }
         }
-
         for(int i=0; i<9; ++i){
             filled[i]=0;
         }
-
         //Set Text View #// TODO: 11/10/2016
 
     }//End Populate Board
@@ -258,7 +273,7 @@ public class PlayGame extends AppCompatActivity {
     }
 
     /*******************************************
-     * Check if Win
+     * Set On Click Listener Method
      * ******************************************/
     public void setOnClickListeners(){
         findViewById(R.id.btn1).setOnClickListener(gameAction);
@@ -270,26 +285,41 @@ public class PlayGame extends AppCompatActivity {
         findViewById(R.id.btn7).setOnClickListener(gameAction);
         findViewById(R.id.btn8).setOnClickListener(gameAction);
         findViewById(R.id.btn9).setOnClickListener(gameAction);
-        findViewById(R.id.btnR).setOnClickListener(gameAction);
+        findViewById(R.id.btnR).setOnClickListener(optionAction);
+        findViewById(R.id.scoresButton).setOnClickListener(optionAction);
 
     }
 
     /*******************************************
-     * Check if Win
+     * Place star Method
      * ******************************************/
-    public int placeStar(ImageButton btn){
-        if(turn == 1){
-            btn.setBackgroundResource(R.drawable.star);
-            pCurrent.setText("Current Player: " + p2Name);
-            return turn = 2;
+    public void placeStar(ImageButton btn){
+        if(filled[currentButton] ==0){
+            if(turn == 1){
+                filled[currentButton] = 1;
+                btn.setBackgroundResource(R.drawable.star);
+                pCurrent.setText("Current Player: " + p2Name);
+                turn = 2;
+            }
+            else if(turn == 2){
+                filled[currentButton] = 2;
+                btn.setBackgroundResource(R.drawable.star2);
+                pCurrent.setText("Current Player: " + p1Name);
+                turn = 1;
+            }else{
+                Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
+            }
+
         }
-        else if(turn == 2){
-            btn.setBackgroundResource(R.drawable.star2);
-            pCurrent.setText("Current Player: " + p1Name);
-            return turn = 1;
+        else{
+            Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
         }
-        else{return 0;}
+
     }
+
+    /*******************************************
+     * Check If Win Method
+     * ******************************************/
 
 
 }
