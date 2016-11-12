@@ -117,9 +117,17 @@ public class PlayGame extends AppCompatActivity {
                     reset();
                     break;
                 }
+                case R.id.scoresButton:{
+                    Log.d("Scores Called", "Scores CASE");
+                    Intent intent = new Intent(PlayGame.this, Scores.class);
+                    startActivity(intent);
+                    break;
+                }
             }
         }
     };
+
+
 
     //Game Action handles gameplay
     //listener for which button on the game board was hit
@@ -313,7 +321,7 @@ public class PlayGame extends AppCompatActivity {
         findViewById(R.id.btn8).setOnClickListener(gameAction);
         findViewById(R.id.btn9).setOnClickListener(gameAction);
         findViewById(R.id.btnR).setOnClickListener(optionAction);
-//        findViewById(R.id.scoresButton).setOnClickListener(optionAction);
+        findViewById(R.id.scoresButton).setOnClickListener(optionAction);
 
     }
 
@@ -434,6 +442,7 @@ public class PlayGame extends AppCompatActivity {
         else if(p1c=="ep1"){
             p1resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
         }
+        else{p1resID = getResources().getIdentifier("star", "drawable",  getPackageName());}
         return p1resID;
     }
 
@@ -455,7 +464,7 @@ public class PlayGame extends AppCompatActivity {
         }
         else if(p2c=="ep2"){
             p2resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
-        }
+        }else{p2resID = getResources().getIdentifier("star2", "drawable",  getPackageName());}
         return  p2resID;
     }
 

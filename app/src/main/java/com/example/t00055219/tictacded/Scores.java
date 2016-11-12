@@ -6,12 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import static com.example.t00055219.tictacded.R.string.p1;
-import static com.example.t00055219.tictacded.R.string.p2;
 
 public class Scores extends AppCompatActivity {
 
@@ -39,13 +35,13 @@ public class Scores extends AppCompatActivity {
 
         findViewById(R.id.sReset).setOnClickListener(resetMe);
         findViewById(R.id.pReset).setOnClickListener(resetMe);
+        findViewById(R.id.pClose).setOnClickListener(resetMe);
 
         p1Name.setText(values.getString("p1", "Player 1"));
         p2Name.setText(values.getString("p2", "Player 2"));
         p1Win.setText(values.getString("p1w", "0"));
         p2Win.setText(values.getString("p2w", "0"));
         editor.apply();
-
     }
 
 
@@ -66,6 +62,9 @@ public class Scores extends AppCompatActivity {
                     finish();//Close this activity
                     break;
                 }
+                case R.id.pClose:{
+                    finish();
+                }
             }
 
         }
@@ -74,7 +73,6 @@ public class Scores extends AppCompatActivity {
     public void resetScore(){
         p1Win.setText("0");
         p2Win.setText("0");
-
         editor.putString("p1w", p1Win.getText().toString());
         editor.putString("p2w", p2Win.getText().toString());
         editor.apply();

@@ -202,7 +202,6 @@ public class EnterNames extends AppCompatActivity {
         }else{
             p1=p1Input.getText().toString();
         }
-
         if (p2Input.getText().toString().length() == 0) {
             p2 = "Player 2";
         } else {
