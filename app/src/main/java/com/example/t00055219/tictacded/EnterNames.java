@@ -72,8 +72,8 @@ public class EnterNames extends AppCompatActivity {
     //Score Reset Check
     public void resetCheckMe(){
         if(!p1.equals(p1Saved) || !p2.equals(p2Saved)){
-            editor.putString("p1Score", "0");
-            editor.putString("p2Score", "0");
+            editor.putString("p1w", "0");
+            editor.putString("p2w", "0");
         }
     }
 
@@ -89,5 +89,6 @@ public class EnterNames extends AppCompatActivity {
     public void startGame(){
         Intent gameIntent = new Intent(EnterNames.this, PlayGame.class);
         startActivity(gameIntent);
+        finish();//Close this activity
     }
 }

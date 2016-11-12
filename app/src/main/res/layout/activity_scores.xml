@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/p1"
-            android:id="@+id/firstPlayerName"
+            android:id="@+id/play1Name"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="25sp" />
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:id="@+id/playerOneWins"
+            android:id="@+id/play1Score"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="25sp" />
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/p2"
-            android:id="@+id/secondPlayerName"
+            android:id="@+id/play2Name"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="25sp" />
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:id="@+id/playerTwoWins"
+            android:id="@+id/play2Score"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="25sp" />
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sReset"
-            android:id="@+id/scoresReset"
+            android:id="@+id/sReset"
             android:textSize="30sp"
             android:layout_marginTop="15sp"
             android:layout_marginBottom="15sp" />
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pReset"
-            android:id="@+id/resetPlayers"
+            android:id="@+id/pReset"
             android:layout_gravity="center_horizontal"
             android:textSize="30sp"
             android:layout_marginTop="15sp"
