@@ -13,6 +13,7 @@ import android.widget.Toast;
 import static android.R.attr.x;
 import static android.R.attr.y;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
+import static com.example.t00055219.tictacded.R.id.winView;
 
 public class PlayGame extends AppCompatActivity {
 
@@ -42,14 +43,20 @@ public class PlayGame extends AppCompatActivity {
     //Player Names
     String p1Name = "Player 1";
     String p2Name = "Player 2";
-    int turn = 1;
     //Player Scores
     int p1Score =0, p2Score =0;
+
+    //Variables for current Player
+    int turn = 1;
+    TextView pCurrent;
+    TextView pWin;
+
+    //Variables for current button
+    int currentButton;
+
     //bool
     boolean win = false;
-    //Textview to see current player
-    TextView pCurrent;
-    int currentButton;
+
     //Toast
     private Toast g, h;
 
@@ -82,9 +89,8 @@ public class PlayGame extends AppCompatActivity {
         b = new ImageButton[3][3];
         pCurrent = (TextView)findViewById(currentPlayer);
         pCurrent.setText("Current Player: " + p1Name);
+        pWin = (TextView)findViewById(winView);
         setOnClickListeners();
-
-
 
 
     }
@@ -238,6 +244,10 @@ public class PlayGame extends AppCompatActivity {
         populateBoard();
         //Close win
         win = false;
+        //Set All Text Views
+        turn = 1;
+        pCurrent.setText("Current Player: " + p1Name);
+        pWin.setText("");
     }
 
     /*******************************************
@@ -337,30 +347,28 @@ public class PlayGame extends AppCompatActivity {
         if((filled[0] == c && filled[1] == c && filled[2] == c) |
            (filled[3] == c && filled[4] == c && filled[5] == c) |
            (filled[6] == c && filled[7] == c && filled[8] == c)){
-            win = true;
-            pCurrent.setText("Horizontal win!");
+            setWin(c);
         }
         //Vertical win
         else if((filled[0] == c && filled[3] == c && filled[6] == c) |
                 (filled[1] == c && filled[4] == c && filled[7] == c) |
                 (filled[2] == c && filled[5] == c && filled[8] == c)){
-            win = true;
-            pCurrent.setText("Vertical win!");
+            setWin(c);
         }
         //Diagonal Win
         else if((filled[0] == c && filled[4] == c && filled[8] == c) |
                 (filled[6] == c && filled[4] == c && filled[2] == c)){
-            win = true;
-            pCurrent.setText("Diagonal win!");
+            setWin(c);
         }
         //Draw
         else if(isFull(filled)){
             pCurrent.setText("DRAW!");
 
         }
-
     }
-
+    /*******************************************
+     * Check If Board is Full
+     * ******************************************/
     public boolean isFull(int a[]){
         boolean v = true;
         for(int i=0; i<a.length;++i){
@@ -369,5 +377,19 @@ public class PlayGame extends AppCompatActivity {
         return v;
     }
 
+    /*******************************************
+     * Make a win view
+     * ******************************************/
+
+    private void setWin(int c){
+        win = true;
+        if(c==1){
+            pWin.setText(p1Name + " Wins!");
+            pCurrent.setText("Congrats!");
+        }else{
+            pWin.setText(p2Name + " Wins!");
+            pCurrent.setText("Sucks 2 Suck");
+        }
+    }
 
 }

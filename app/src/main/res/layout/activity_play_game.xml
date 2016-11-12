@@ -32,8 +32,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Player 1 Wins!"
-                android:id="@+id/playerOne"
+                android:text=""
+                android:id="@+id/winView"
                 android:textSize="30sp"
                 android:textColor="@android:color/white" />
 
