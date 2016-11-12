@@ -2,6 +2,7 @@ package com.example.t00055219.tictacded;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,8 @@ public class PlayGame extends AppCompatActivity {
     String p1Name = "Player 1";
     String p2Name = "Player 2";
     int p1Win =0, p2Win =0;
+    String p1c="", p2c="";
+    int p1resID, p2resID;
 
     //Variables for current Player
     int turn = 1;
@@ -82,11 +85,14 @@ public class PlayGame extends AppCompatActivity {
         values = getSharedPreferences(PREFS_NAME, 0);
         editor = values.edit();
 
+
+
         //applies shared preferences values
         p1Name = values.getString("p1", "Player 1");
         p2Name= values.getString("p2", "Player 2");
+        p1c = values.getString("p1c", "p1c");
+        p2c = values.getString("p2c", "p2c");
         editor.apply();
-
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
 
@@ -127,7 +133,6 @@ public class PlayGame extends AppCompatActivity {
             else {
 
                 switch (btn.getId()) {
-
                     //Button 1
                     case R.id.btn1: {
                         currentButton = 0;
@@ -319,14 +324,14 @@ public class PlayGame extends AppCompatActivity {
         if(filled[currentButton] ==0){
             if(turn == 1){
                 filled[currentButton] = 1;
-                btn.setBackgroundResource(R.drawable.star);
+                btn.setBackgroundResource(findPlayerOneCharacter(p1c));
                 pCurrent.setText("Current Player: " + p2Name);
                 checkWin(turn);
                 turn = 2;
             }
             else if(turn == 2){
                 filled[currentButton] = 2;
-                btn.setBackgroundResource(R.drawable.star2);
+                btn.setBackgroundResource(findPlayerTwoCharacter(p2c));
                 pCurrent.setText("Current Player: " + p1Name);
                 checkWin(turn);
                 turn = 1;
@@ -407,6 +412,51 @@ public class PlayGame extends AppCompatActivity {
         }
         editor.apply();
         win = true;
+    }
+
+
+    public int findPlayerOneCharacter(String p1c){
+        if(p1c==""){
+            p1resID = getResources().getIdentifier("star", "drawable",  getPackageName());
+        }
+        else if(p1c=="ap1"){
+            p1resID = getResources().getIdentifier("char_a_neutral", "drawable",  getPackageName());
+        }
+        else if(p1c=="bp1"){
+            p1resID = getResources().getIdentifier("char_b_neutral", "drawable",  getPackageName());
+        }
+        else if(p1c=="cp1"){
+            p1resID = getResources().getIdentifier("char_c_neutral", "drawable",  getPackageName());
+        }
+        else if(p1c=="dp1"){
+            p1resID = getResources().getIdentifier("char_d_neutral", "drawable",  getPackageName());
+        }
+        else if(p1c=="ep1"){
+            p1resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
+        }
+        return p1resID;
+    }
+
+    public int findPlayerTwoCharacter(String p2c){
+        if(p2c==""){
+            p2resID = getResources().getIdentifier("star2", "drawable",  getPackageName());
+        }
+        else if(p2c=="ap2"){
+            p2resID = getResources().getIdentifier("char_a_neutral", "drawable",  getPackageName());
+        }
+        else if(p2c=="bp2"){
+            p2resID = getResources().getIdentifier("char_b_neutral", "drawable",  getPackageName());
+        }
+        else if(p2c=="cp2"){
+            p2resID = getResources().getIdentifier("char_c_neutral", "drawable",  getPackageName());
+        }
+        else if(p2c=="dp2"){
+            p2resID = getResources().getIdentifier("char_d_neutral", "drawable",  getPackageName());
+        }
+        else if(p2c=="ep2"){
+            p2resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
+        }
+        return  p2resID;
     }
 
 }

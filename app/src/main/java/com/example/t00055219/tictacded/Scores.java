@@ -55,16 +55,11 @@ public class Scores extends AppCompatActivity {
             Button btn = (Button)v;
             switch(btn.getId()){
                 case R.id.sReset:{
-                    p1Win.setText("0");
-                    p2Win.setText("0");
-
-                    editor.putString("p1w", p1Win.getText().toString());
-                    editor.putString("p2w", p2Win.getText().toString());
-                    editor.apply();
-                    editor.commit();
+                    resetScore();
                     break;
                 }
                 case R.id.pReset:{
+                    resetScore();
                     //goes the enter names activity
                     Intent reEnter = new Intent(Scores.this, EnterNames.class);
                     startActivity(reEnter);
@@ -75,4 +70,14 @@ public class Scores extends AppCompatActivity {
 
         }
     };
+
+    public void resetScore(){
+        p1Win.setText("0");
+        p2Win.setText("0");
+
+        editor.putString("p1w", p1Win.getText().toString());
+        editor.putString("p2w", p2Win.getText().toString());
+        editor.apply();
+        editor.commit();
+    }
 }
