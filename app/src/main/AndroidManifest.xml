@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PlayGame" />
-        <activity android:name=".EnterNames"></activity>
+        <activity android:name=".EnterNames" />
+        <activity android:name=".Scores"></activity>
     </application>
 
 </manifest>

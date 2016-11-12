@@ -33,4 +33,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--See Scores-->
+    <string name="players">Players</string>
+    <string name="score">Score</string>
+    <string name="zero">0</string>
+    <string name="sReset">Reset Score</string>
+    <string name="pReset">Reset Players And Score</string>
 </resources>

@@ -125,9 +125,11 @@ public class MenuListFragmentA extends Fragment {
                     break;
                 case 3:
                     Log.d("MENU ITEM:", "Score");
+                    goToScores(getView());
                     break;
                 case 4:
                     Log.d("MENU ITEM:", "Quit");
+                    exit(getView());
                     break;
 
         }
@@ -140,6 +142,16 @@ public class MenuListFragmentA extends Fragment {
     public void goToEnterNames(View v){
         Intent intent = new Intent(getActivity(), EnterNames.class);
         startActivity(intent);
+    }
+
+    public void goToScores(View v){
+        Intent intent = new Intent(getActivity(), Scores.class);
+        startActivity(intent);
+    }
+
+    public void exit(View v)
+    {
+        System.exit(0);
     }
 
     public interface OnFragmentInteractionListener {
