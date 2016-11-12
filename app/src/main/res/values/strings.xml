@@ -9,4 +9,17 @@
 
     <!--Reset Button-->
     <string name="resetButton">Reset</string>
+    <string name="title_activity_enter_names">EnterNames</string>
+
+    <!--Game Strings-->
+    <string name="currentPlayer">Current Player</string>
+    <string name="winStatus"></string>
+
+    <!--Set Names-->
+    <string name="p1">Player 1</string>
+    <string name="p2">Player 2</string>
+    <string name="pNameInput">Enter Name</string>
+    <string name="saveButton">Save</string>
+
+    <!--See Scores-->
 </resources>

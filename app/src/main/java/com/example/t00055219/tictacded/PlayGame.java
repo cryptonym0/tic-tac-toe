@@ -82,6 +82,7 @@ public class PlayGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
+
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
 
@@ -92,6 +93,8 @@ public class PlayGame extends AppCompatActivity {
         pWin = (TextView)findViewById(winView);
         setOnClickListeners();
 
+
+        reset();
 
     }
 
