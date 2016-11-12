@@ -23,6 +23,13 @@
         android:textStyle="normal|bold"
         android:textColorLink="#1C0F16" />
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.example.t00055219.tictacded.MenuListFragmentA"
+        android:id="@+id/fragment"
+        android:layout_weight="1" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -30,52 +37,52 @@
         android:layout_weight="3"
         android:weightSum="4">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/startButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#900049"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="#1C0F16"
-            android:id="@+id/startButton"
-            android:onClick="start"/>
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/startButton"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#900049"-->
+            <!--android:textAppearance="@style/TextAppearance.AppCompat.Display2"-->
+            <!--android:textColor="#1C0F16"-->
+            <!--android:id="@+id/startButton"-->
+            <!--android:onClick="start"/>-->
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/rulesButton"
-            android:id="@+id/rulesButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            tools:background="@color/colorAccent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:background="#BE789C"
-            android:textColor="#1C0F16" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/rulesButton"-->
+            <!--android:id="@+id/rulesButton"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--tools:background="@color/colorAccent"-->
+            <!--android:textAppearance="@style/TextAppearance.AppCompat.Display2"-->
+            <!--android:background="#BE789C"-->
+            <!--android:textColor="#1C0F16" />-->
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scoresButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="@string/scoresButton"
-            android:background="#900049"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="#1C0F16" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/scoresButton"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/scoresButton"-->
+            <!--android:background="#900049"-->
+            <!--android:textAppearance="@style/TextAppearance.AppCompat.Display2"-->
+            <!--android:textColor="#1C0F16" />-->
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/quitButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            tools:background="@color/colorAccent"
-            android:background="#BE789C"
-            android:textColor="#1C0F16"
-            android:id="@+id/quitButton" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/quitButton"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textAppearance="@style/TextAppearance.AppCompat.Display2"-->
+            <!--tools:background="@color/colorAccent"-->
+            <!--android:background="#BE789C"-->
+            <!--android:textColor="#1C0F16"-->
+            <!--android:id="@+id/quitButton" />-->
 
 
         </LinearLayout>

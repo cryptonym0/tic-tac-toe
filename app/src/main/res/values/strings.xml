@@ -1,4 +1,12 @@
 <resources>
+    <!--Main Menu-->
+    <string-array name="menuItems">
+        <item>Choose Characters</item>
+        <item>Player V.S. Player</item>
+        <item>Player V.S. AI</item>
+        <item>Score</item>
+        <item>Quit</item>
+    </string-array>
     <string name="app_name">TicTacDed</string>
     <string name="action_settings">Settings</string>
     <string name="mainTitle">Tic Tac Toe</string>
@@ -20,6 +28,9 @@
     <string name="p2">Player 2</string>
     <string name="pNameInput">Enter Name</string>
     <string name="saveButton">Save</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--See Scores-->
 </resources>

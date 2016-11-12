@@ -307,7 +307,7 @@ public class PlayGame extends AppCompatActivity {
         findViewById(R.id.btn8).setOnClickListener(gameAction);
         findViewById(R.id.btn9).setOnClickListener(gameAction);
         findViewById(R.id.btnR).setOnClickListener(optionAction);
-        findViewById(R.id.scoresButton).setOnClickListener(optionAction);
+//        findViewById(R.id.scoresButton).setOnClickListener(optionAction);
 
     }
 
