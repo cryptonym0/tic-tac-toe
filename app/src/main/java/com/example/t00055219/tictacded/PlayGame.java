@@ -1,6 +1,7 @@
 package com.example.t00055219.tictacded;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import static android.R.attr.x;
 import static android.R.attr.y;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
 import static com.example.t00055219.tictacded.R.id.winView;
+import static com.example.t00055219.tictacded.R.string.p1;
+import static com.example.t00055219.tictacded.R.string.p2;
 
 public class PlayGame extends AppCompatActivity {
 
@@ -28,9 +31,6 @@ public class PlayGame extends AppCompatActivity {
      * Score 1
      * Score 2
      *
-     * Winner
-     * Boolean if a win exists
-     *
      *Algorithm:
      * If the game is over, return the score from X's perspective.
      Otherwise get a list of new game states for every possible move
@@ -43,8 +43,7 @@ public class PlayGame extends AppCompatActivity {
     //Player Names
     String p1Name = "Player 1";
     String p2Name = "Player 2";
-    //Player Scores
-    int p1Score =0, p2Score =0;
+    int p1Win =0, p2Win =0;
 
     //Variables for current Player
     int turn = 1;
@@ -60,8 +59,6 @@ public class PlayGame extends AppCompatActivity {
     //Toast
     private Toast g, h;
 
-
-
     //Array for board
     public static int[][] board = new int[3][3];
     public static int[] filled = new int[9];
@@ -71,17 +68,24 @@ public class PlayGame extends AppCompatActivity {
     //Possible Wins
     public int move = 0;
 
-//    private int[][] possibleMoves = {
-//            {1, 1}, {0, 0}, {0, 2}, {2, 0}, {2, 2},
-//            {0, 1}, {1, 0}, {1, 2}, {2, 1}};
-
     //Make shared Preferences
+    public static final String PREFS_NAME = "MyPreferenceFile";
+    SharedPreferences values;
+    SharedPreferences.Editor editor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
+
+        values = getSharedPreferences(PREFS_NAME, 0);
+        editor = values.edit();
+
+        //applies shared preferences values
+        p1Name = values.getString("p1", "Player 1");
+        p2Name= values.getString("p2", "Player 2");
+        editor.apply();
 
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
@@ -92,10 +96,7 @@ public class PlayGame extends AppCompatActivity {
         pCurrent.setText("Current Player: " + p1Name);
         pWin = (TextView)findViewById(winView);
         setOnClickListeners();
-
-
-        reset();
-
+        reset();//Reset values
     }
 
     //Options action
@@ -385,14 +386,27 @@ public class PlayGame extends AppCompatActivity {
      * ******************************************/
 
     private void setWin(int c){
-        win = true;
+
         if(c==1){
             pWin.setText(p1Name + " Wins!");
             pCurrent.setText("Congrats!");
+            p1Win = Integer.parseInt(values.getString("p1w", "0"));
+            Log.d("CHECK", "playerOneScore before add = "+p1Win);
+            p1Win +=1;
+            Log.d("CHECK", "playerOneScore after add = "+p1Win);
+            editor.putString("p1w", String.valueOf(p1Win));
+
         }else{
             pWin.setText(p2Name + " Wins!");
             pCurrent.setText("Sucks 2 Suck");
+            p2Win = Integer.parseInt(values.getString("p2w", "0"));
+            Log.d("CHECK", "player2Score before add = "+p2Win);
+            p2Win +=1;
+            Log.d("CHECK", "player2Score after add = "+p2Win);
+            editor.putString("p2w", String.valueOf(p2Win));
         }
+        editor.apply();
+        win = true;
     }
 
 }
