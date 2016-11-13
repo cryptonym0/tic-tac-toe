@@ -562,18 +562,19 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                         ||
                         (listScore.get(i).getScore() == result.getScore() && listScore.get(i).depth < result.depth) )
                     result = listScore.get(i);
+                Log.d("RESULTMM if Returned", ""+ i);
             }
         }
         else
         {
             for(int i=1; i<listScore.size(); i++)
             {
-                if( (listScore.get(i).getScore() < result.getScore())
-                        ||
-                        (listScore.get(i).getScore() == result.getScore() && listScore.get(i).depth < result.depth) )
+                if( (listScore.get(i).getScore() < result.getScore()) || (listScore.get(i).getScore() == result.getScore() && listScore.get(i).depth < result.depth) )
                     result = listScore.get(i);
+                Log.d("RESULTMM Else Returned", ""+ i);
             }
         }
+
         return result;
     }
 
