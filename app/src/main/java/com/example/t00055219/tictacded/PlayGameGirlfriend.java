@@ -314,13 +314,15 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(findPlayerOneCharacter(p1c));
                 pCurrent.setText("Current Player: " + p2Name);
-                checkWin(turn);
+//                checkWin(turn);
+                getScore(filled);
                 turn = 2;
             } else if (turn == 2) {
                 filled[currentButton] = 2;
                 btn.setBackgroundResource(findPlayerTwoCharacter(p2c));
                 pCurrent.setText("Current Player: " + p1Name);
-                checkWin(turn);
+//                checkWin(turn);
+                getScore(filled);
                 turn = 1;
             } else {
                 Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
@@ -592,7 +594,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         }
         else
         {//3------------------
-            ArrayList<ResultMM> listScore = new ArrayList<ResultMM>();
+            ArrayList<ResultMM> listScore = new ArrayList<>();
             //pass into each child
             for(int i = 0; i<children.size(); i++)
             {//3 a)---------------
@@ -626,6 +628,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         int i = res.getIntrus();
         //4
         gameXO[i] = 2;
+
         //5
         // return i+20 to know that o wins (i used this method for programming issues)
         // retrun i-30 to know that the game is draw (i used this method for programming issues)
@@ -636,7 +639,13 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     }
 
     public void whoDoIClick(int i){
+        Log.d("Array Filled b4", filled[0] + " " + filled[1] + " " + filled[2] + " " + filled[3] + " " + filled[4] + " " + filled[5] + " " + filled[6] + " " + filled[7] + " " + filled[8]);
+        Log.d("Array gameXO b4", gameXO[0] + " " + gameXO[1] + " " + gameXO[2] + " " + gameXO[3] + " " + gameXO[4] + " " + gameXO[5] + " " + gameXO[6] + " " + gameXO[7] + " " + gameXO[8]);
+        Log.d("AI is trying to Click", ""+i);
         b[i].performClick();
+        Log.d("Array Filled af", filled[0] + " " + filled[1] + " " + filled[2] + " " + filled[3] + " " + filled[4] + " " + filled[5] + " " + filled[6] + " " + filled[7] + " " + filled[8]);
+        Log.d("Array gameXO af", gameXO[0] + " " + gameXO[1] + " " + gameXO[2] + " " + gameXO[3] + " " + gameXO[4] + " " + gameXO[5] + " " + gameXO[6] + " " + gameXO[7] + " " + gameXO[8]);
+        filled[i] = 2;
     }
 
     public void handleMe(int i){
