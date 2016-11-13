@@ -85,8 +85,6 @@ public class PlayGame extends AppCompatActivity {
         values = getSharedPreferences(PREFS_NAME, 0);
         editor = values.edit();
 
-
-
         //applies shared preferences values
         p1Name = values.getString("p1", "Player 1");
         p2Name= values.getString("p2", "Player 2");
@@ -99,7 +97,7 @@ public class PlayGame extends AppCompatActivity {
         //Players
         b = new ImageButton[3][3];
         pCurrent = (TextView)findViewById(currentPlayer);
-        pCurrent.setText("Current Player: " + p1Name);
+
         pWin = (TextView)findViewById(winView);
         setOnClickListeners();
         reset();//Reset values
@@ -259,11 +257,17 @@ public class PlayGame extends AppCompatActivity {
         b9.setBackgroundResource(R.color.clearColor);
         //Reset Board
         populateBoard();
+
         //Close win
         win = false;
         //Set All Text Views
-        turn = 1;
-        pCurrent.setText("Current Player: " + p1Name);
+//        turn = 1;
+        if(turn == 1){
+            pCurrent.setText("Current Player: " + p1Name);
+        }
+        else if(turn == 2) {
+            pCurrent.setText("Current Player: " + p2Name);
+        }
         pWin.setText("");
     }
 
@@ -442,7 +446,6 @@ public class PlayGame extends AppCompatActivity {
         else if(p1c=="ep1"){
             p1resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
         }
-        else{p1resID = getResources().getIdentifier("star", "drawable",  getPackageName());}
         return p1resID;
     }
 
@@ -464,7 +467,7 @@ public class PlayGame extends AppCompatActivity {
         }
         else if(p2c=="ep2"){
             p2resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
-        }else{p2resID = getResources().getIdentifier("star2", "drawable",  getPackageName());}
+        }
         return  p2resID;
     }
 

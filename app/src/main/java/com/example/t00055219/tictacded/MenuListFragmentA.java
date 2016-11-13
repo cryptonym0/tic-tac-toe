@@ -122,6 +122,7 @@ public class MenuListFragmentA extends Fragment {
                     break;
                 case 2:
                     Log.d("MENU ITEM:", "PVAI");
+                    goToGF(getView());
                     break;
                 case 3:
                     Log.d("MENU ITEM:", "Score");
@@ -146,6 +147,11 @@ public class MenuListFragmentA extends Fragment {
 
     public void goToScores(View v){
         Intent intent = new Intent(getActivity(), Scores.class);
+        startActivity(intent);
+    }
+
+    public void goToGF(View v){
+        Intent intent = new Intent(getActivity(), PlayGameGirlfriend.class);
         startActivity(intent);
     }
 

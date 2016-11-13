@@ -11,8 +11,8 @@
         <activity
             android:name=".MainActivity"
             android:label="Tic Tac Toc"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,16 +22,16 @@
         <activity
             android:name=".PlayGame"
             android:label="Lets Play!"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EnterNames"
             android:label="Choose Character"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Scores"
             android:label="Scores"
-            android:screenOrientation="portrait"
-            ></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".PlayGameGirlfriend"></activity>
     </application>
 
 </manifest>
