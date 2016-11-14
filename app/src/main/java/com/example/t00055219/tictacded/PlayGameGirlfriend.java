@@ -38,12 +38,10 @@ import static com.example.t00055219.tictacded.R.string.p2;
 public class PlayGameGirlfriend extends AppCompatActivity {
 
     //Declaring Variables
-    //Player Names
     String p1Name = "Player 1";
-    String p2Name = "Player 2";
-    int p1Win = 0, p2Win = 0;
-    String p1c = "", p2c = "";
-    int p1resID, p2resID;
+    int p1Win = 0, aiWin = 0;
+    String p1c = "";
+    int p1resID, airesID;
 
     //Variables for current Player
     int turn = 1;
@@ -63,6 +61,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     public static int[] filled = new int[9];
     //Current button for AI
     ImageButton b[];
+    String[] aiArr = new String[9];
     static int lastTurn = 1;
 
     //Make shared Preferences
@@ -78,9 +77,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         values      = getSharedPreferences(PREFS_NAME, 0);
         editor      = values.edit();
         p1Name      = values.getString("p1", "Player 1");
-        p2Name      = values.getString("p2", "Player 2");
         p1c         = values.getString("p1c", "p1c");
-        p2c         = values.getString("p2c", "p2c");
         editor.apply();
         g           = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h           = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
@@ -90,6 +87,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         pWin        = (TextView) findViewById(winView);
         setOnClickListeners();
         reset();//Reset values
+
     }
 
     //Options action
@@ -118,6 +116,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     //Game Action handles gameplay
     //listener for which button on the game board was hit
     public View.OnClickListener gameAction = new View.OnClickListener() {
+
         @Override
         public void onClick(View arg0) {
             ImageButton btn = (ImageButton) arg0;
@@ -125,107 +124,138 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                 h.show();
             } else {
 
-                switch (btn.getId()) {
-                    //Button 1
-                    case R.id.btn1: {
-                        currentButton = 0;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+
+                    switch (btn.getId()) {
+                        //Button 1
+                        case R.id.btn1: {
+                            currentButton = 0;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if (turn == 2) {
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 2
-                    case R.id.btn2: {
-                        currentButton = 1;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 2
+                        case R.id.btn2: {
+                            currentButton = 1;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if (turn == 2) {
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+//                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 3
-                    case R.id.btn3: {
-                        currentButton = 2;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 3
+                        case R.id.btn3: {
+                            currentButton = 2;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if (turn == 2) {
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 4
-                    case R.id.btn4: {
-                        currentButton = 3;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 4
+                        case R.id.btn4: {
+                            currentButton = 3;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+
+                                if(turn==2){
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 5
-                    case R.id.btn5: {
-                        currentButton = 4;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 5
+                        case R.id.btn5: {
+                            currentButton = 4;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if (turn == 2) {
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 6
-                    case R.id.btn6: {
-                        currentButton = 5;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 6
+                        case R.id.btn6: {
+                            currentButton = 5;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if(turn==2){
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 7
-                    case R.id.btn7: {
-                        currentButton = 6;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 7
+                        case R.id.btn7: {
+                            currentButton = 6;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if(turn==2){
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 8
-                    case R.id.btn8: {
-                        currentButton = 7;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 8
+                        case R.id.btn8: {
+                            currentButton = 7;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if(turn==2){
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //Button 9
-                    case R.id.btn9: {
-                        currentButton = 8;
-                        if (filled[currentButton] != 0) {
-                            g.show();
-                        } else {
-                            placeStar(btn);
-                            if(turn==2){handleMe(currentButton);}
+                        //Button 9
+                        case R.id.btn9: {
+                            currentButton = 8;
+                            if (filled[currentButton] != 0) {
+                                g.show();
+                            } else {
+                                placeStar(btn);
+                                if(turn==2){
+                                    Girlfriend gf = new Girlfriend();
+                                    gf.execute(currentButton);
+                                }
+                            }
+                            break;
                         }
-                        break;
-                    }
-                }//Button Switch
+                    }//Button Switch
+
             }
         }
     };//On click listener
@@ -274,7 +304,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             Random rand = new Random();
             int x =rand.nextInt(8);
             Log.d("Random is:", ""+x);
-            handleMe(x);
+//             handleMe(x);
         }
         pWin.setText("");
     }
@@ -295,9 +325,11 @@ public class PlayGameGirlfriend extends AppCompatActivity {
 
         for (int i = 0; i < 9; ++i) {
             filled[i] = 0;
-        }
-        for(int i=0; i<9; i++)
             aiArr[i] = " ";
+
+        }
+//        for(int i=0; i<9; i++)
+//            aiArr[i] = " ";
 
     }//End Populate Board
 
@@ -333,7 +365,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                 turn = 2;
             } else if (turn == 2) {
                 filled[currentButton] = 2;
-                btn.setBackgroundResource(findPlayerTwoCharacter(p2c));
+                btn.setBackgroundResource(getResources().getIdentifier("char_a_neutral", "drawable", getPackageName()));
                 pCurrent.setText(p1Name + "'s Turn");
                 checkWin(turn);
 //                getScore(filled);
@@ -383,13 +415,12 @@ public class PlayGameGirlfriend extends AppCompatActivity {
      * Check If Board is Full
      ******************************************/
     public boolean isFull(int a[]) {
-        boolean v = true;
         for (int i = 0; i < a.length; ++i) {
             if (a[i] == 0) {
-                return v = false;
+                return false;
             }
         }
-        return v;
+        return true;
     }
 
     /*******************************************
@@ -399,8 +430,8 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     private void setWin(int c) {
 
         if (c == 1) {
-            pWin.setText(p1Name + " Wins!");
-            pCurrent.setText("Congrats!");
+            pWin.setText("I Let You Win...");
+            pCurrent.setText(p1Name + " Wins!");
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
             Log.d("CHECK", "playerOneScore before add = " + p1Win);
             p1Win += 1;
@@ -408,13 +439,13 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             editor.putString("p1w", String.valueOf(p1Win));
 
         } else {
-            pWin.setText(p2Name + " Wins!");
-            pCurrent.setText("Sucks 2 Suck");
-            p2Win = Integer.parseInt(values.getString("p2w", "0"));
-            Log.d("CHECK", "player2Score before add = " + p2Win);
-            p2Win += 1;
-            Log.d("CHECK", "player2Score after add = " + p2Win);
-            editor.putString("p2w", String.valueOf(p2Win));
+            pWin.setText("You Can't Beat Me!");
+            pCurrent.setText("Saika Wins!");
+            aiWin = Integer.parseInt(values.getString("aiw", "0"));
+            Log.d("CHECK", "player2Score before add = " + aiWin);
+            aiWin += 1;
+            Log.d("CHECK", "player2Score after add = " + aiWin);
+            editor.putString("aiw", String.valueOf(aiWin));
         }
         editor.apply();
         win = true;
@@ -439,15 +470,169 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         return p1resID;
     }
 
-    public int findPlayerTwoCharacter(String p2c) {
-        p2resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
-        return p2resID;
-    }
+//    public int findPlayerTwoCharacter() {
+//        p2resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
+//        return p2resID;
+//    }
 
 
     /*******************************************
      * AI STUFF
      ******************************************/
+    public class Girlfriend extends AsyncTask<Integer, String, Integer>{
+        Handler ha = new Handler();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... in) {
+            int index = in[0];
+            Log.d("AI Recieves Index", ""+index);
+
+            //Make Move Function
+            handleMe(index);
+
+            return null;
+        }
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+//            b[myMove].performClick();
+        }
+
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+        }
+
+        //String Array For the AI
+
+
+        public String inverse(String l)
+        {
+            return (l.equals("MIN")) ? "MAX" : "MIN" ;
+        }
+        public int getScore(String[] a)
+        {
+            if( (a[0].equalsIgnoreCase("x") && a[1].equalsIgnoreCase("x") && a[2].equalsIgnoreCase("x")) || (a[3].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x")) ||
+                    (a[6].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[0].equalsIgnoreCase("x") && a[3].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x")) ||
+                    (a[1].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) ||
+                    (a[0].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x"))
+                    )
+                return -1;
+            if( (a[0].equalsIgnoreCase("o") && a[1].equalsIgnoreCase("o") && a[2].equalsIgnoreCase("o")) || (a[3].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o")) ||
+                    (a[6].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[0].equalsIgnoreCase("o") && a[3].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o")) ||
+                    (a[1].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) ||
+                    (a[0].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o"))
+                    )
+                return 1;
+            return 0;
+        }
+        public boolean drawGame(String[] arr)
+        {
+            for(int i=0; i<9; i++)
+                if(arr[i].equals(" "))
+                    return false;
+            return true;
+        }
+        public boolean gameOver(String[] arr)
+        {
+            return (getScore(arr)!=0) ? true : false;
+        }
+        public ArrayList<String[]> genere_succ(String[] demo, String level)
+        {
+            ArrayList<String[]> kid = new ArrayList<>();
+            for(int i=0; i<demo.length; i++)
+            {
+                if( demo[i].equals(" ") )
+                {
+                    String[] child = new String[9];
+                    for(int j=0; j<9; j++)
+                        child[j] = demo[j];
+                    if(level.equals("MAX"))
+                        child[i] = "o";
+                    else
+                        child[i] = "x";
+                    kid.add(child);
+                }
+            }
+            return ( kid.size() == 0 ) ? null : kid ;
+        }
+        public ResultMM getResult(ArrayList<ResultMM> list, String l)
+        {
+            ResultMM result= list.get(0);
+            if(l.equals("MAX"))
+            {
+                for(int i=1; i<list.size(); i++)
+                {
+                    if( (list.get(i).getScore() > result.getScore())
+                            ||
+                            (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
+                        result = list.get(i);
+                }
+            }
+            else
+            {
+                for(int i=1; i<list.size(); i++)
+                {
+                    if( (list.get(i).getScore() < result.getScore())
+                            ||
+                            (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
+                        result = list.get(i);
+                }
+            }
+            return result;
+        }
+        public ResultMM MinMax(String[] demo, String l, int f, int d)
+        {
+            ArrayList<String[]> children = genere_succ(demo,l);
+            if(children == null || gameOver(demo))
+            {
+                return new ResultMM(demo, getScore(demo), d);
+            }
+            else
+            {
+                ArrayList<ResultMM> listScore = new ArrayList<>();
+                for(int i = 0; i<children.size(); i++)
+                {
+                    listScore.add( MinMax(children.get(i), inverse(l), 1, d+1));
+                }
+                ResultMM res = getResult(listScore, l);
+                if( f == 1)
+                    res.updateMatrix(demo);
+                return res;
+            }
+        }
+        public int makeMove(int index)
+        {
+            aiArr[index] = "X";
+            if(gameOver(aiArr)) { return -1; }
+            if(drawGame(aiArr)) { return -2; }
+            ResultMM res = MinMax(aiArr,"MAX", 0, 0);
+            int i = res.getIntrus();
+            aiArr[i] = "O";
+            b[i].performClick();
+            if(gameOver(aiArr)) { return i+20;}
+            if(drawGame(aiArr)) { return i-30;}
+            return i;
+        }
+        public void handleMe(int i){
+            //Handler
+            final int x = i;
+            Runnable r = new Runnable() {
+                @Override
+                public void run(){
+                    makeMove(x);
+                }
+            };
+            ha.postDelayed(r, 500);
+        }
+    }
 
     public class ResultMM {
         String[] m;
@@ -475,127 +660,127 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             return -1;
         }
     }
-    //String Array For the AI
-    static String[] aiArr = new String[9];
-
-    public String inverse(String l)
-    {
-        return (l.equals("MIN")) ? "MAX" : "MIN" ;
-    }
-    public int getScore(String[] a)
-    {
-        if( (a[0].equalsIgnoreCase("x") && a[1].equalsIgnoreCase("x") && a[2].equalsIgnoreCase("x")) || (a[3].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x")) ||
-                (a[6].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[0].equalsIgnoreCase("x") && a[3].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x")) ||
-                (a[1].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) ||
-                (a[0].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x"))
-                )
-            return -1;
-        if( (a[0].equalsIgnoreCase("o") && a[1].equalsIgnoreCase("o") && a[2].equalsIgnoreCase("o")) || (a[3].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o")) ||
-                (a[6].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[0].equalsIgnoreCase("o") && a[3].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o")) ||
-                (a[1].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) ||
-                (a[0].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o"))
-                )
-            return 1;
-        return 0;
-    }
-    public boolean drawGame(String[] arr)
-    {
-        for(int i=0; i<9; i++)
-            if(arr[i].equals(" "))
-                return false;
-        return true;
-    }
-    public boolean gameOver(String[] arr)
-    {
-        return (getScore(arr)!=0) ? true : false;
-    }
-    public ArrayList<String[]> genere_succ(String[] demo, String level)
-    {
-        ArrayList<String[]> kid = new ArrayList<>();
-        for(int i=0; i<demo.length; i++)
-        {
-            if( demo[i].equals(" ") )
-            {
-                String[] child = new String[9];
-                for(int j=0; j<9; j++)
-                    child[j] = demo[j];
-                if(level.equals("MAX"))
-                    child[i] = "o";
-                else
-                    child[i] = "x";
-                kid.add(child);
-            }
-        }
-        return ( kid.size() == 0 ) ? null : kid ;
-    }
-    public ResultMM getResult(ArrayList<ResultMM> list, String l)
-    {
-        ResultMM result= list.get(0);
-        if(l.equals("MAX"))
-        {
-            for(int i=1; i<list.size(); i++)
-            {
-                if( (list.get(i).getScore() > result.getScore())
-                        ||
-                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
-                    result = list.get(i);
-            }
-        }
-        else
-        {
-            for(int i=1; i<list.size(); i++)
-            {
-                if( (list.get(i).getScore() < result.getScore())
-                        ||
-                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
-                    result = list.get(i);
-            }
-        }
-        return result;
-    }
-    public ResultMM MinMax(String[] demo, String l, int f, int d)
-    {
-        ArrayList<String[]> children = genere_succ(demo,l);
-        if(children == null || gameOver(demo))
-        {
-            return new ResultMM(demo, getScore(demo), d);
-        }
-        else
-        {
-            ArrayList<ResultMM> listScore = new ArrayList<>();
-            for(int i = 0; i<children.size(); i++)
-            {
-                listScore.add( MinMax(children.get(i), inverse(l), 1, d+1));
-            }
-            ResultMM res = getResult(listScore, l);
-            if( f == 1)
-                res.updateMatrix(demo);
-            return res;
-        }
-    }
-    public int makeMove(int index)
-    {
-        aiArr[index] = "X";
-        if(gameOver(aiArr)) { return -1; }
-        if(drawGame(aiArr)) { return -2; }
-        ResultMM res = MinMax(aiArr,"MAX", 0, 0);
-        int i = res.getIntrus();
-        aiArr[i] = "O";
-        b[i].performClick();
-        if(gameOver(aiArr)) { return i+20;}
-        if(drawGame(aiArr)) { return i-30;}
-        return i;
-    }
-    public void handleMe(int i){
-        //Handler
-        final int x = i;
-        Handler ha = new Handler();
-        Runnable r = new Runnable() {
-            @Override
-            public void run(){
-                makeMove(x);
-            }
-        };
-        ha.postDelayed(r, 500);
-    }
+//    //String Array For the AI
+//    static String[] aiArr = new String[9];
+//
+//    public String inverse(String l)
+//    {
+//        return (l.equals("MIN")) ? "MAX" : "MIN" ;
+//    }
+//    public int getScore(String[] a)
+//    {
+//        if( (a[0].equalsIgnoreCase("x") && a[1].equalsIgnoreCase("x") && a[2].equalsIgnoreCase("x")) || (a[3].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x")) ||
+//                (a[6].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[0].equalsIgnoreCase("x") && a[3].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x")) ||
+//                (a[1].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) ||
+//                (a[0].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x"))
+//                )
+//            return -1;
+//        if( (a[0].equalsIgnoreCase("o") && a[1].equalsIgnoreCase("o") && a[2].equalsIgnoreCase("o")) || (a[3].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o")) ||
+//                (a[6].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[0].equalsIgnoreCase("o") && a[3].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o")) ||
+//                (a[1].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) ||
+//                (a[0].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o"))
+//                )
+//            return 1;
+//        return 0;
+//    }
+//    public boolean drawGame(String[] arr)
+//    {
+//        for(int i=0; i<9; i++)
+//            if(arr[i].equals(" "))
+//                return false;
+//        return true;
+//    }
+//    public boolean gameOver(String[] arr)
+//    {
+//        return (getScore(arr)!=0) ? true : false;
+//    }
+//    public ArrayList<String[]> genere_succ(String[] demo, String level)
+//    {
+//        ArrayList<String[]> kid = new ArrayList<>();
+//        for(int i=0; i<demo.length; i++)
+//        {
+//            if( demo[i].equals(" ") )
+//            {
+//                String[] child = new String[9];
+//                for(int j=0; j<9; j++)
+//                    child[j] = demo[j];
+//                if(level.equals("MAX"))
+//                    child[i] = "o";
+//                else
+//                    child[i] = "x";
+//                kid.add(child);
+//            }
+//        }
+//        return ( kid.size() == 0 ) ? null : kid ;
+//    }
+//    public ResultMM getResult(ArrayList<ResultMM> list, String l)
+//    {
+//        ResultMM result= list.get(0);
+//        if(l.equals("MAX"))
+//        {
+//            for(int i=1; i<list.size(); i++)
+//            {
+//                if( (list.get(i).getScore() > result.getScore())
+//                        ||
+//                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
+//                    result = list.get(i);
+//            }
+//        }
+//        else
+//        {
+//            for(int i=1; i<list.size(); i++)
+//            {
+//                if( (list.get(i).getScore() < result.getScore())
+//                        ||
+//                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
+//                    result = list.get(i);
+//            }
+//        }
+//        return result;
+//    }
+//    public ResultMM MinMax(String[] demo, String l, int f, int d)
+//    {
+//        ArrayList<String[]> children = genere_succ(demo,l);
+//        if(children == null || gameOver(demo))
+//        {
+//            return new ResultMM(demo, getScore(demo), d);
+//        }
+//        else
+//        {
+//            ArrayList<ResultMM> listScore = new ArrayList<>();
+//            for(int i = 0; i<children.size(); i++)
+//            {
+//                listScore.add( MinMax(children.get(i), inverse(l), 1, d+1));
+//            }
+//            ResultMM res = getResult(listScore, l);
+//            if( f == 1)
+//                res.updateMatrix(demo);
+//            return res;
+//        }
+//    }
+//    public int makeMove(int index)
+//    {
+//        aiArr[index] = "X";
+//        if(gameOver(aiArr)) { return -1; }
+//        if(drawGame(aiArr)) { return -2; }
+//        ResultMM res = MinMax(aiArr,"MAX", 0, 0);
+//        int i = res.getIntrus();
+//        aiArr[i] = "O";
+//        b[i].performClick();
+//        if(gameOver(aiArr)) { return i+20;}
+//        if(drawGame(aiArr)) { return i-30;}
+//        return i;
+//    }
+//    public void handleMe(int i){
+//        //Handler
+//        final int x = i;
+//        Handler ha = new Handler();
+//        Runnable r = new Runnable() {
+//            @Override
+//            public void run(){
+//                makeMove(x);
+//            }
+//        };
+//        ha.postDelayed(r, 500);
+//    }
 }

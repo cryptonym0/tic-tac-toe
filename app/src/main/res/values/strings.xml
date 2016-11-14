@@ -26,6 +26,7 @@
     <!--Set Names-->
     <string name="p1">Player 1</string>
     <string name="p2">Player 2</string>
+    <string name="saika">Saika</string>
     <string name="pNameInput">Enter Name</string>
     <string name="saveButton">Save</string>
 
@@ -37,5 +38,5 @@
     <string name="score">Score</string>
     <string name="zero">0</string>
     <string name="sReset">Reset Score</string>
-    <string name="pReset">Reset Players And Score</string>
+    <string name="pReset">New Characters</string>
 </resources>

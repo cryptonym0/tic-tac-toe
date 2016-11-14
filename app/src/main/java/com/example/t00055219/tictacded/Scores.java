@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import static com.example.t00055219.tictacded.R.string.p1;
+
 public class Scores extends AppCompatActivity {
 
     //Create Variabls
     TextView p1Name, p2Name, p1Win, p2Win;
-    ImageButton p1char, p2char;//Currently not implemented
+    TextView aiName, aiWin;
+    ImageButton p1char, p2char, aiChar;//Currently not implemented
 
     //Shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -33,6 +36,9 @@ public class Scores extends AppCompatActivity {
         p1Win = (TextView)findViewById(R.id.play1Score);
         p2Win = (TextView)findViewById(R.id.play2Score);
 
+//        aiName = (TextView)findViewById(R.id.aiName); Not Sure If Ill Need This
+        aiWin = (TextView)findViewById(R.id.aiScore);
+
         findViewById(R.id.sReset).setOnClickListener(resetMe);
         findViewById(R.id.pReset).setOnClickListener(resetMe);
         findViewById(R.id.pClose).setOnClickListener(resetMe);
@@ -41,6 +47,8 @@ public class Scores extends AppCompatActivity {
         p2Name.setText(values.getString("p2", "Player 2"));
         p1Win.setText(values.getString("p1w", "0"));
         p2Win.setText(values.getString("p2w", "0"));
+//        aiName.setText(values.getString("ai", "ai"));
+        aiWin.setText(values.getString("aiw", "0"));
         editor.apply();
     }
 
@@ -73,8 +81,10 @@ public class Scores extends AppCompatActivity {
     public void resetScore(){
         p1Win.setText("0");
         p2Win.setText("0");
+        aiWin.setText("0");
         editor.putString("p1w", p1Win.getText().toString());
         editor.putString("p2w", p2Win.getText().toString());
+        editor.putString("aiw", aiWin.getText().toString());
         editor.apply();
         editor.commit();
     }

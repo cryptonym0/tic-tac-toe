@@ -99,8 +99,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="15sp">
+        android:weightSum="2"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/saika"
+            android:id="@+id/aiName"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            android:id="@+id/aiScore"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
 
         <Button
             android:layout_width="wrap_content"
@@ -108,8 +135,8 @@
             android:text="@string/sReset"
             android:id="@+id/sReset"
             android:textSize="30sp"
-            android:layout_marginTop="15sp"
-            android:layout_marginBottom="15sp" />
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp" />
 
     </LinearLayout>
 
@@ -125,18 +152,18 @@
             android:id="@+id/pReset"
             android:layout_gravity="center_horizontal"
             android:textSize="30sp"
-            android:layout_marginTop="15sp"
-            android:layout_marginBottom="15sp" />
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp" />
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Close"
             android:id="@+id/pClose"
             android:layout_gravity="center_horizontal"
             android:textSize="30sp"
-            android:layout_marginTop="15sp"
-            android:layout_marginBottom="15sp" />
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp" />
 
 
     </LinearLayout>

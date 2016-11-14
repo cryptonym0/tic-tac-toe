@@ -21,26 +21,6 @@ import static com.example.t00055219.tictacded.R.string.p2;
 
 public class PlayGame extends AppCompatActivity {
 
-    //Declaring Variables
-    /***
-    * Players:
-     * Player 1 - Human
-     * Player 2 - Human
-     * Player 3 - AI
-     *
-     * Scores:
-     * Score 1
-     * Score 2
-     *
-     *Algorithm:
-     * If the game is over, return the score from X's perspective.
-     Otherwise get a list of new game states for every possible move
-     Create a scores list
-     For each of these states add the minimax result of that state to the scores list
-     If it's X's turn, return the maximum score from the scores list
-     If it's O's turn, return the minimum score from the scores list
-    * */
-
     //Player Names
     String p1Name = "Player 1";
     String p2Name = "Player 2";
@@ -124,8 +104,6 @@ public class PlayGame extends AppCompatActivity {
             }
         }
     };
-
-
 
     //Game Action handles gameplay
     //listener for which button on the game board was hit
@@ -261,7 +239,6 @@ public class PlayGame extends AppCompatActivity {
         //Close win
         win = false;
         //Set All Text Views
-//        turn = 1;
         if(turn == 1){
             pCurrent.setText("Current Player: " + p1Name);
         }
@@ -428,6 +405,7 @@ public class PlayGame extends AppCompatActivity {
 
 
     public int findPlayerOneCharacter(String p1c){
+        p1resID = getResources().getIdentifier("char_a_neutral", "drawable",  getPackageName());
         if(p1c==""){
             p1resID = getResources().getIdentifier("star", "drawable",  getPackageName());
         }
@@ -450,6 +428,7 @@ public class PlayGame extends AppCompatActivity {
     }
 
     public int findPlayerTwoCharacter(String p2c){
+        p2resID = getResources().getIdentifier("char_b_neutral", "drawable",  getPackageName());
         if(p2c==""){
             p2resID = getResources().getIdentifier("star2", "drawable",  getPackageName());
         }
