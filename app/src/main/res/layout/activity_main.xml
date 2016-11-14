@@ -8,7 +8,8 @@
     android:orientation="vertical"
     android:weightSum="4"
     android:clipChildren="true"
-    tools:background="#430022">
+    android:background="@drawable/c_menu"
+    >
 
     <TextView
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         android:gravity="center"
         android:layout_weight="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="#D7BAC9"
+        android:textColor="@android:color/background_light"
         android:textStyle="normal|bold"
         android:textColorLink="#1C0F16" />
 

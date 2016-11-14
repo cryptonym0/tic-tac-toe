@@ -12,7 +12,7 @@
     tools:context="com.example.t00055219.tictacded.PlayGame"
     android:orientation="vertical"
     android:weightSum="4"
-    android:background="#430022">
+    android:background="@drawable/c_vs_2">
 
 
     <LinearLayout
@@ -97,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#BE789C">
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -114,7 +114,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
 
@@ -127,7 +127,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
             <ImageButton
@@ -138,7 +138,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
         </LinearLayout>
 
@@ -157,7 +157,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
             <ImageButton
@@ -169,7 +169,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
             <ImageButton
@@ -180,7 +180,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
         </LinearLayout>
@@ -200,7 +200,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
 
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
             <ImageButton
@@ -211,8 +211,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
             <ImageButton
@@ -222,7 +221,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:background="#430022"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
         </LinearLayout>

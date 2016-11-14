@@ -17,10 +17,6 @@ public class MainActivity extends AppCompatActivity implements MenuListFragmentA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Create Buttons
-//        start_ = (Button) findViewById(R.id.startButton);
-
     }
 
     public void start(View view){
@@ -33,9 +29,5 @@ public class MainActivity extends AppCompatActivity implements MenuListFragmentA
         MenuListFragmentA frag = (MenuListFragmentA) FragManager.findFragmentById(R.id.fragment);
         Log.d("Fragment Interaction", "Fragments Should Interact");
     }
-
-
-
-
 }
 
