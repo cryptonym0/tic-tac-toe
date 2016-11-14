@@ -303,8 +303,8 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             pCurrent.setText("Saika's Turn");
             Random rand = new Random();
             int x =rand.nextInt(8);
-            Log.d("Random is:", ""+x);
-//             handleMe(x);
+            Girlfriend gf = new Girlfriend();
+            gf.execute(x);
         }
         pWin.setText("");
     }
