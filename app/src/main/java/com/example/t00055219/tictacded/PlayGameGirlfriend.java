@@ -26,6 +26,7 @@ import static android.R.attr.level;
 import static android.R.attr.x;
 import static android.R.attr.y;
 import static android.R.id.toggle;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
 import static com.example.t00055219.tictacded.R.id.fill;
 import static com.example.t00055219.tictacded.R.id.winView;
@@ -60,8 +61,9 @@ public class PlayGameGirlfriend extends AppCompatActivity {
 
     //Array for board
     public static int[] filled = new int[9];
-    //Current buttin
+    //Current button for AI
     ImageButton b[];
+    static int lastTurn = 1;
 
     //Make shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -95,7 +97,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         @Override
         public void onClick(View arg0) {
             Button btn = (Button) arg0;
-
             switch (btn.getId()) {
                 case R.id.btnR: {
                     Log.d("Reset Called", "RESET CASE");
@@ -229,6 +230,16 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         }
     };//On click listener
 
+    public void toggleTurn(int lastTurn, int turn){
+        if(lastTurn == 1){
+            turn = 2;
+            lastTurn = 2;
+        }
+        else{
+            turn = 1;
+            lastTurn = 2;
+        }
+    }
     //Reset Function
     public void reset() {
         Log.d("Reset Called", "Test");
@@ -252,15 +263,18 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         b9.setBackgroundResource(R.color.clearColor);
         //Reset Board
         populateBoard();
-
         //Close win
         win = false;
         //Set All Text Views
-        turn = 1; //TODO REMOVE ME!!
+        toggleTurn(lastTurn, turn);
         if (turn == 1) {
-            pCurrent.setText("Current Player: " + p1Name);
+            pCurrent.setText(p1Name + "'s Turn");
         } else if (turn == 2) {
-            pCurrent.setText("Current Player: " + p2Name);
+            pCurrent.setText("Saika's Turn");
+            Random rand = new Random();
+            int x =rand.nextInt(8);
+            Log.d("Random is:", ""+x);
+            handleMe(x);
         }
         pWin.setText("");
     }
@@ -279,12 +293,12 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         b[7] = (ImageButton) findViewById(R.id.btn8);
         b[8] = (ImageButton) findViewById(R.id.btn9);
 
-        //Ai #TODO
         for (int i = 0; i < 9; ++i) {
             filled[i] = 0;
         }
+        for(int i=0; i<9; i++)
+            aiArr[i] = " ";
 
-        controller();
     }//End Populate Board
 
     /*******************************************
@@ -313,16 +327,16 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             if (turn == 1) {
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(findPlayerOneCharacter(p1c));
-                pCurrent.setText("Current Player: " + p2Name);
-//                checkWin(turn);
-                getScore(filled);
+                pCurrent.setText("Saika's Turn");
+                checkWin(turn);
+//                getScore(filled);
                 turn = 2;
             } else if (turn == 2) {
                 filled[currentButton] = 2;
                 btn.setBackgroundResource(findPlayerTwoCharacter(p2c));
-                pCurrent.setText("Current Player: " + p1Name);
-//                checkWin(turn);
-                getScore(filled);
+                pCurrent.setText(p1Name + "'s Turn");
+                checkWin(turn);
+//                getScore(filled);
                 turn = 1;
             } else {
                 Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
@@ -426,20 +440,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     }
 
     public int findPlayerTwoCharacter(String p2c) {
-        p2resID = getResources().getIdentifier("star2", "drawable", getPackageName());
-        if (p2c == "") {
-            p2resID = getResources().getIdentifier("star2", "drawable", getPackageName());
-        } else if (p2c == "ap2") {
-            p2resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
-        } else if (p2c == "bp2") {
-            p2resID = getResources().getIdentifier("char_b_neutral", "drawable", getPackageName());
-        } else if (p2c == "cp2") {
-            p2resID = getResources().getIdentifier("char_c_neutral", "drawable", getPackageName());
-        } else if (p2c == "dp2") {
-            p2resID = getResources().getIdentifier("char_d_neutral", "drawable", getPackageName());
-        } else if (p2c == "ep2") {
-            p2resID = getResources().getIdentifier("char_e_neutral", "drawable", getPackageName());
-        }
+        p2resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
         return p2resID;
     }
 
@@ -449,18 +450,18 @@ public class PlayGameGirlfriend extends AppCompatActivity {
      ******************************************/
 
     public class ResultMM {
-        int[] matrix;
+        String[] m;
         int score;
-        int depth;
-        public ResultMM(int[] matrix, int score, int depth)
+        int d;
+        public ResultMM(String[] m, int score, int d)
         {
-            this.matrix = matrix;
+            this.m = m;
             this.score = score;
-            this.depth = depth;
+            this.d = d;
         }
-        public void updateMatrix(int[] matrix)
+        public void updateMatrix(String[] m)
         {
-            this.matrix = matrix;
+            this.m = m;
         }
         public int getScore()
         {
@@ -469,186 +470,122 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         public int getIntrus()
         {
             for(int i=0; i<9; i++)
-                if(matrix[i]==2)
+                if(m[i].equals("o"))
                     return i;
             return -1;
         }
     }
+    //String Array For the AI
+    static String[] aiArr = new String[9];
 
-    //gameXO is the game
-    static int[] gameXO = new int[9];
-    //_sdepth is used to control the depth
-    static int sdepth;
-
-
-    public void controller()
-    {//reInitialise the gameXO when i create a new controller
-        for(int i=0; i<9; i++)
-            gameXO[i] = 0;
+    public String inverse(String l)
+    {
+        return (l.equals("MIN")) ? "MAX" : "MIN" ;
     }
-
-    //inverse: this method is used to toggle between level (Min and Max)
-    public String inverse(String level)
-    { //inverse level from MIN to MAX
-        return (level.equals("MIN")) ? "MAX" : "MIN" ;
-    }
-
-    public int getScore(int[] demo)
-    { //return the score:
-        //if X win return -1;
-        //if O win return 1;
-        //else return 0, this mean draw
-        if( (demo[0]==(1) && demo[1]==(1) && demo[2]==(1)) || (demo[3]==(1) && demo[4]==(1) && demo[5]==(1) ||
-                (demo[6]==(1) && demo[7]==(1) && demo[8]==(1)) || (demo[0]==(1) && demo[3]==(1) && demo[6]==(1)) ||
-                (demo[1]==(1) && demo[4]==(1) && demo[7]==(1)) || (demo[2]==(1) && demo[5]==(1) && demo[8]==(1)) ||
-                (demo[0]==(1) && demo[4]==(1) && demo[8]==(1)) || (demo[2]==(1) && demo[4]==(1) && demo[6]==(1))))
+    public int getScore(String[] a)
+    {
+        if( (a[0].equalsIgnoreCase("x") && a[1].equalsIgnoreCase("x") && a[2].equalsIgnoreCase("x")) || (a[3].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x")) ||
+                (a[6].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[0].equalsIgnoreCase("x") && a[3].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x")) ||
+                (a[1].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) ||
+                (a[0].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x"))
+                )
             return -1;
-        if( (demo[0]==(2) && demo[1]==(2) && demo[2]==(2)) || (demo[3]==(2) && demo[4]==(2) && demo[5]==(2)) ||
-                (demo[6]==(2) && demo[7]==(2) && demo[8]==(2)) || (demo[0]==(2) && demo[3]==(2) && demo[6]==(2)) ||
-                (demo[1]==(2) && demo[4]==(2) && demo[7]==(2)) || (demo[2]==(2) && demo[5]==(2) && demo[8]==(2)) ||
-                (demo[0]==(2) && demo[4]==(2) && demo[8]==(2)) || (demo[2]==(2) && demo[4]==(2) && demo[6]==(2))
+        if( (a[0].equalsIgnoreCase("o") && a[1].equalsIgnoreCase("o") && a[2].equalsIgnoreCase("o")) || (a[3].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o")) ||
+                (a[6].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[0].equalsIgnoreCase("o") && a[3].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o")) ||
+                (a[1].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) ||
+                (a[0].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o"))
                 )
             return 1;
         return 0;
     }
-    public boolean drawGame(int[] demo)
+    public boolean drawGame(String[] arr)
     {
-        //test if the game is draw.
-        //if demo is full, this mean that game is draw
-        //if demo still has empty square, this mean that the game isn't finished
         for(int i=0; i<9; i++)
-            if(demo[i]==(0))
+            if(arr[i].equals(" "))
                 return false;
         return true;
     }
-    public boolean gameOver(int[] demo)
-    {//if the score of the game is 0 then return false else we have a winner
-        return (getScore(demo)!=0) ? true : false;
+    public boolean gameOver(String[] arr)
+    {
+        return (getScore(arr)!=0) ? true : false;
     }
-
-    public ArrayList<int[]> genere_succ(int[] demo, String level)
-    {//generate successor
-        //if level is MAX, generate successor with o (o in lowercase)
-        //if level is MIN, generate successor with x (x in lowercase)
-        //if demo has no successor, return null
-        ArrayList<int[]> succ = new ArrayList<>();
+    public ArrayList<String[]> genere_succ(String[] demo, String level)
+    {
+        ArrayList<String[]> kid = new ArrayList<>();
         for(int i=0; i<demo.length; i++)
         {
-            if( demo[i]==0)
+            if( demo[i].equals(" ") )
             {
-                int[] child = new int[9];
+                String[] child = new String[9];
                 for(int j=0; j<9; j++)
                     child[j] = demo[j];
                 if(level.equals("MAX"))
-                    child[i] = 2;
+                    child[i] = "o";
                 else
-                    child[i] = 1;
-                succ.add(child);
+                    child[i] = "x";
+                kid.add(child);
             }
         }
-        return ( succ.size() == 0 ) ? null : succ ;
+        return ( kid.size() == 0 ) ? null : kid ;
     }
-
-    public ResultMM getResult(ArrayList<ResultMM> listScore, String level)
-    {//this method is used to get the appropriate score
-        //if level is MAX, i search for the higher score in the nearer depth
-        //if level is MIN, i search for the lowest score in the nearer depth
-        ResultMM result= listScore.get(0);
-        if(level.equals("MAX"))
+    public ResultMM getResult(ArrayList<ResultMM> list, String l)
+    {
+        ResultMM result= list.get(0);
+        if(l.equals("MAX"))
         {
-            for(int i=1; i<listScore.size(); i++)
+            for(int i=1; i<list.size(); i++)
             {
-                if( (listScore.get(i).getScore() > result.getScore())
+                if( (list.get(i).getScore() > result.getScore())
                         ||
-                        (listScore.get(i).getScore() == result.getScore() && listScore.get(i).depth < result.depth) )
-                    result = listScore.get(i);
-                Log.d("RESULTMM if Returned", ""+ i);
+                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
+                    result = list.get(i);
             }
         }
         else
         {
-            for(int i=1; i<listScore.size(); i++)
+            for(int i=1; i<list.size(); i++)
             {
-                if( (listScore.get(i).getScore() < result.getScore()) || (listScore.get(i).getScore() == result.getScore() && listScore.get(i).depth < result.depth) )
-                    result = listScore.get(i);
-                Log.d("RESULTMM Else Returned", ""+ i);
+                if( (list.get(i).getScore() < result.getScore())
+                        ||
+                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
+                    result = list.get(i);
             }
         }
-
         return result;
     }
-
-    public ResultMM MinMax(int[] demo, String level, int fils, int depth)
-    {/*MinMax algorithm
-           * 1- generate successor
-           * 2- if no successor or game is finished return score
-           * 3- if there is successor
-           *      a) apply MinMax for each successor
-           *     b) after recursive call, i return the good score
-           */
-        //1---------------
-        ArrayList<int[]> children = genere_succ(demo,level);
-        //2------------------
+    public ResultMM MinMax(String[] demo, String l, int f, int d)
+    {
+        ArrayList<String[]> children = genere_succ(demo,l);
         if(children == null || gameOver(demo))
         {
-            return new ResultMM(demo, getScore(demo), depth);
+            return new ResultMM(demo, getScore(demo), d);
         }
         else
-        {//3------------------
+        {
             ArrayList<ResultMM> listScore = new ArrayList<>();
-            //pass into each child
             for(int i = 0; i<children.size(); i++)
-            {//3 a)---------------
-                listScore.add( MinMax(children.get(i), inverse(level), 1, depth+1));
+            {
+                listScore.add( MinMax(children.get(i), inverse(l), 1, d+1));
             }
-            //3 b)----------------
-            ResultMM res = getResult(listScore, level);
-            if( fils == 1)
+            ResultMM res = getResult(listScore, l);
+            if( f == 1)
                 res.updateMatrix(demo);
             return res;
         }
     }
-
     public int makeMove(int index)
-    {     /*Step to do in this method
-           *1- update gameXO. put X in the gameXO[index]
-           *2- test if game is finished (draw or X win)
-           *3- call MinMax algorithm and return the score and return the best position for O
-           *4- update gameXO. put O in its position
-           *5- test if game is finished (draw or O win)
-           */
-        //return -1 to know that player X wins
-        //return -2 to know that the game is draw
-        //1
-        gameXO[index] = 1;
-        //2
-        if(gameOver(gameXO)) { return -1; }
-        if(drawGame(gameXO)) { return -2; }
-        //3
-        ResultMM res = MinMax(gameXO,"MAX", 0, 0);
+    {
+        aiArr[index] = "X";
+        if(gameOver(aiArr)) { return -1; }
+        if(drawGame(aiArr)) { return -2; }
+        ResultMM res = MinMax(aiArr,"MAX", 0, 0);
         int i = res.getIntrus();
-        //4
-        gameXO[i] = 2;
-
-        //5
-        // return i+20 to know that o wins (i used this method for programming issues)
-        // retrun i-30 to know that the game is draw (i used this method for programming issues)
-        if(gameOver(gameXO)) { return i+20; }
-        if(drawGame(gameXO)) { return i-30; }
-        whoDoIClick(i);
+        aiArr[i] = "O";
+        b[i].performClick();
+        if(gameOver(aiArr)) { return i+20;}
+        if(drawGame(aiArr)) { return i-30;}
         return i;
     }
-
-    public void whoDoIClick(int i){
-        Log.d("Array Filled b4", filled[0] + " " + filled[1] + " " + filled[2] + " " + filled[3] + " " + filled[4] + " " + filled[5] + " " + filled[6] + " " + filled[7] + " " + filled[8]);
-        Log.d("Array gameXO b4", gameXO[0] + " " + gameXO[1] + " " + gameXO[2] + " " + gameXO[3] + " " + gameXO[4] + " " + gameXO[5] + " " + gameXO[6] + " " + gameXO[7] + " " + gameXO[8]);
-        Log.d("AI is trying to Click", ""+i);
-        b[i].performClick();
-        Log.d("Array Filled af", filled[0] + " " + filled[1] + " " + filled[2] + " " + filled[3] + " " + filled[4] + " " + filled[5] + " " + filled[6] + " " + filled[7] + " " + filled[8]);
-        Log.d("Array gameXO af", gameXO[0] + " " + gameXO[1] + " " + gameXO[2] + " " + gameXO[3] + " " + gameXO[4] + " " + gameXO[5] + " " + gameXO[6] + " " + gameXO[7] + " " + gameXO[8]);
-        filled[i] = 2;
-    }
-
     public void handleMe(int i){
         //Handler
         final int x = i;
@@ -659,6 +596,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                 makeMove(x);
             }
         };
-        ha.postDelayed(r, 250);
+        ha.postDelayed(r, 500);
     }
 }
