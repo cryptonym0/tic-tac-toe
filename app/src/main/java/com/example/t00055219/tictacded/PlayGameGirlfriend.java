@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import static android.R.attr.x;
 import static android.R.attr.y;
 import static android.R.id.toggle;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import static com.example.t00055219.tictacded.R.id.aiEmotion;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
 import static com.example.t00055219.tictacded.R.id.fill;
 import static com.example.t00055219.tictacded.R.id.winView;
@@ -41,12 +43,13 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     String p1Name = "Player 1";
     int p1Win = 0, aiWin = 0;
     String p1c = "";
-    int p1resID, airesID;
+    int p1resID, airesID, aiEmote;
 
     //Variables for current Player
     int turn = 1;
     TextView pCurrent;
     TextView pWin;
+    ImageView aiFace;
 
     //Variables for current button
     int currentButton;
@@ -74,6 +77,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game_girlfriend);
 
+        aiFace      = (ImageView) findViewById(aiEmotion);
         values      = getSharedPreferences(PREFS_NAME, 0);
         editor      = values.edit();
         p1Name      = values.getString("p1", "Player 1");
@@ -86,9 +90,11 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         pCurrent    = (TextView) findViewById(currentPlayer);
         pWin        = (TextView) findViewById(winView);
         setOnClickListeners();
+
         reset();//Reset values
 
     }
+
 
     //Options action
     public View.OnClickListener optionAction = new View.OnClickListener() {
@@ -328,8 +334,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             aiArr[i] = " ";
 
         }
-//        for(int i=0; i<9; i++)
-//            aiArr[i] = " ";
 
     }//End Populate Board
 
@@ -361,14 +365,12 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                 btn.setBackgroundResource(findPlayerOneCharacter(p1c));
                 pCurrent.setText("Saika's Turn");
                 checkWin(turn);
-//                getScore(filled);
                 turn = 2;
             } else if (turn == 2) {
                 filled[currentButton] = 2;
-                btn.setBackgroundResource(getResources().getIdentifier("char_a_neutral", "drawable", getPackageName()));
+                btn.setBackgroundResource(getEmotion("neutral"));
                 pCurrent.setText(p1Name + "'s Turn");
                 checkWin(turn);
-//                getScore(filled);
                 turn = 1;
             } else {
                 Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
@@ -405,11 +407,12 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         }
         //Draw
         else if (isFull(filled)) {
-            pCurrent.setText("DRAW!");
+            pWin.setText("Nice Try..");
+            pCurrent.setText("It's A Draw!");
+            aiFace.setImageResource(getEmotion("sad"));
 
         }
     }
-
 
     /*******************************************
      * Check If Board is Full
@@ -430,21 +433,19 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     private void setWin(int c) {
 
         if (c == 1) {
-            pWin.setText("I Let You Win...");
+            pWin.setText("...");
             pCurrent.setText(p1Name + " Wins!");
+            aiFace.setImageResource(getEmotion("mad"));
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
-            Log.d("CHECK", "playerOneScore before add = " + p1Win);
             p1Win += 1;
-            Log.d("CHECK", "playerOneScore after add = " + p1Win);
             editor.putString("p1w", String.valueOf(p1Win));
 
         } else {
-            pWin.setText("You Can't Beat Me!");
+            pWin.setText("Hehe!");
             pCurrent.setText("Saika Wins!");
+            aiFace.setImageResource(getEmotion("happy"));
             aiWin = Integer.parseInt(values.getString("aiw", "0"));
-            Log.d("CHECK", "player2Score before add = " + aiWin);
             aiWin += 1;
-            Log.d("CHECK", "player2Score after add = " + aiWin);
             editor.putString("aiw", String.valueOf(aiWin));
         }
         editor.apply();
@@ -456,25 +457,36 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         p1resID = getResources().getIdentifier("star", "drawable", getPackageName());
         if (p1c == "") {
             p1resID = getResources().getIdentifier("star", "drawable", getPackageName());
-        } else if (p1c == "ap1") {
+        } else if (p1c == "ap") {
             p1resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
-        } else if (p1c == "bp1") {
+        } else if (p1c == "bp") {
             p1resID = getResources().getIdentifier("char_b_neutral", "drawable", getPackageName());
-        } else if (p1c == "cp1") {
+        } else if (p1c == "cp") {
             p1resID = getResources().getIdentifier("char_c_neutral", "drawable", getPackageName());
-        } else if (p1c == "dp1") {
+        } else if (p1c == "dp") {
             p1resID = getResources().getIdentifier("char_d_neutral", "drawable", getPackageName());
-        } else if (p1c == "ep1") {
+        } else if (p1c == "ep") {
             p1resID = getResources().getIdentifier("char_e_neutral", "drawable", getPackageName());
         }
         return p1resID;
     }
 
-//    public int findPlayerTwoCharacter() {
-//        p2resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
-//        return p2resID;
-//    }
+    public int getEmotion(String e){
 
+        if(e == "happy"){
+            aiEmote = getResources().getIdentifier("char_a_win", "drawable", getPackageName());
+        }
+        else if(e == "sad"){
+            aiEmote = getResources().getIdentifier("char_a_notpicked", "drawable", getPackageName());
+        }
+        else if(e == "mad"){
+            aiEmote = getResources().getIdentifier("char_a_lose", "drawable", getPackageName());
+        }
+        else{
+            aiEmote = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
+        }
+        return aiEmote;
+    }
 
     /*******************************************
      * AI STUFF
@@ -660,127 +672,5 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             return -1;
         }
     }
-//    //String Array For the AI
-//    static String[] aiArr = new String[9];
-//
-//    public String inverse(String l)
-//    {
-//        return (l.equals("MIN")) ? "MAX" : "MIN" ;
-//    }
-//    public int getScore(String[] a)
-//    {
-//        if( (a[0].equalsIgnoreCase("x") && a[1].equalsIgnoreCase("x") && a[2].equalsIgnoreCase("x")) || (a[3].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x")) ||
-//                (a[6].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[0].equalsIgnoreCase("x") && a[3].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x")) ||
-//                (a[1].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[7].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[5].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) ||
-//                (a[0].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[8].equalsIgnoreCase("x")) || (a[2].equalsIgnoreCase("x") && a[4].equalsIgnoreCase("x") && a[6].equalsIgnoreCase("x"))
-//                )
-//            return -1;
-//        if( (a[0].equalsIgnoreCase("o") && a[1].equalsIgnoreCase("o") && a[2].equalsIgnoreCase("o")) || (a[3].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o")) ||
-//                (a[6].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[0].equalsIgnoreCase("o") && a[3].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o")) ||
-//                (a[1].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[7].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[5].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) ||
-//                (a[0].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[8].equalsIgnoreCase("o")) || (a[2].equalsIgnoreCase("o") && a[4].equalsIgnoreCase("o") && a[6].equalsIgnoreCase("o"))
-//                )
-//            return 1;
-//        return 0;
-//    }
-//    public boolean drawGame(String[] arr)
-//    {
-//        for(int i=0; i<9; i++)
-//            if(arr[i].equals(" "))
-//                return false;
-//        return true;
-//    }
-//    public boolean gameOver(String[] arr)
-//    {
-//        return (getScore(arr)!=0) ? true : false;
-//    }
-//    public ArrayList<String[]> genere_succ(String[] demo, String level)
-//    {
-//        ArrayList<String[]> kid = new ArrayList<>();
-//        for(int i=0; i<demo.length; i++)
-//        {
-//            if( demo[i].equals(" ") )
-//            {
-//                String[] child = new String[9];
-//                for(int j=0; j<9; j++)
-//                    child[j] = demo[j];
-//                if(level.equals("MAX"))
-//                    child[i] = "o";
-//                else
-//                    child[i] = "x";
-//                kid.add(child);
-//            }
-//        }
-//        return ( kid.size() == 0 ) ? null : kid ;
-//    }
-//    public ResultMM getResult(ArrayList<ResultMM> list, String l)
-//    {
-//        ResultMM result= list.get(0);
-//        if(l.equals("MAX"))
-//        {
-//            for(int i=1; i<list.size(); i++)
-//            {
-//                if( (list.get(i).getScore() > result.getScore())
-//                        ||
-//                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
-//                    result = list.get(i);
-//            }
-//        }
-//        else
-//        {
-//            for(int i=1; i<list.size(); i++)
-//            {
-//                if( (list.get(i).getScore() < result.getScore())
-//                        ||
-//                        (list.get(i).getScore() == result.getScore() && list.get(i).d < result.d) )
-//                    result = list.get(i);
-//            }
-//        }
-//        return result;
-//    }
-//    public ResultMM MinMax(String[] demo, String l, int f, int d)
-//    {
-//        ArrayList<String[]> children = genere_succ(demo,l);
-//        if(children == null || gameOver(demo))
-//        {
-//            return new ResultMM(demo, getScore(demo), d);
-//        }
-//        else
-//        {
-//            ArrayList<ResultMM> listScore = new ArrayList<>();
-//            for(int i = 0; i<children.size(); i++)
-//            {
-//                listScore.add( MinMax(children.get(i), inverse(l), 1, d+1));
-//            }
-//            ResultMM res = getResult(listScore, l);
-//            if( f == 1)
-//                res.updateMatrix(demo);
-//            return res;
-//        }
-//    }
-//    public int makeMove(int index)
-//    {
-//        aiArr[index] = "X";
-//        if(gameOver(aiArr)) { return -1; }
-//        if(drawGame(aiArr)) { return -2; }
-//        ResultMM res = MinMax(aiArr,"MAX", 0, 0);
-//        int i = res.getIntrus();
-//        aiArr[i] = "O";
-//        b[i].performClick();
-//        if(gameOver(aiArr)) { return i+20;}
-//        if(drawGame(aiArr)) { return i-30;}
-//        return i;
-//    }
-//    public void handleMe(int i){
-//        //Handler
-//        final int x = i;
-//        Handler ha = new Handler();
-//        Runnable r = new Runnable() {
-//            @Override
-//            public void run(){
-//                makeMove(x);
-//            }
-//        };
-//        ha.postDelayed(r, 500);
-//    }
+
 }

@@ -31,7 +31,7 @@ public class PlayGame extends AppCompatActivity {
     //Variables for current Player
     int turn = 1;
     TextView pCurrent;
-    TextView pWin;
+
 
     //Variables for current button
     int currentButton;
@@ -56,6 +56,9 @@ public class PlayGame extends AppCompatActivity {
     SharedPreferences values;
     SharedPreferences.Editor editor;
 
+    //Player emotions
+    int p1h, p1s, p1m, p1n, p2h, p2s, p2m, p2n;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,22 @@ public class PlayGame extends AppCompatActivity {
         p1c = values.getString("p1c", "p1c");
         p2c = values.getString("p2c", "p2c");
         editor.apply();
+
+        //Create Players
+        Player player1 = new Player(PlayGame.this);
+        Player player2 = new Player(PlayGame.this);
+        player1.setEmotions(p1c);
+        player2.setEmotions(p2c);
+        p1h = player1.getHappy(p1c);
+        p1s = player1.getSad(p1c);
+        p1m = player1.getMad(p1c);
+        p1n = player1.getNeutral(p1c);
+        p2h = player2.getHappy(p2c);
+        p2s = player2.getSad(p2c);
+        p2m = player2.getMad(p2c);
+        p2n = player2.getNeutral(p2c);
+
+
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
 
@@ -78,7 +97,6 @@ public class PlayGame extends AppCompatActivity {
         b = new ImageButton[3][3];
         pCurrent = (TextView)findViewById(currentPlayer);
 
-        pWin = (TextView)findViewById(winView);
         setOnClickListeners();
         reset();//Reset values
     }
@@ -99,6 +117,7 @@ public class PlayGame extends AppCompatActivity {
                     Log.d("Scores Called", "Scores CASE");
                     Intent intent = new Intent(PlayGame.this, Scores.class);
                     startActivity(intent);
+                    finish();
                     break;
                 }
             }
@@ -245,7 +264,6 @@ public class PlayGame extends AppCompatActivity {
         else if(turn == 2) {
             pCurrent.setText("Current Player: " + p2Name);
         }
-        pWin.setText("");
     }
 
     /*******************************************
@@ -313,14 +331,15 @@ public class PlayGame extends AppCompatActivity {
         if(filled[currentButton] ==0){
             if(turn == 1){
                 filled[currentButton] = 1;
-                btn.setBackgroundResource(findPlayerOneCharacter(p1c));
+                btn.setBackgroundResource(p1n);
+                Log.d("IMG", ""+p1n);
                 pCurrent.setText("Current Player: " + p2Name);
                 checkWin(turn);
                 turn = 2;
             }
             else if(turn == 2){
                 filled[currentButton] = 2;
-                btn.setBackgroundResource(findPlayerTwoCharacter(p2c));
+                btn.setBackgroundResource(p2n);
                 pCurrent.setText("Current Player: " + p1Name);
                 checkWin(turn);
                 turn = 1;
@@ -382,8 +401,7 @@ public class PlayGame extends AppCompatActivity {
     private void setWin(int c){
 
         if(c==1){
-            pWin.setText(p1Name + " Wins!");
-            pCurrent.setText("Congrats!");
+            pCurrent.setText(p1Name + " Wins!");
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
             Log.d("CHECK", "playerOneScore before add = "+p1Win);
             p1Win +=1;
@@ -391,8 +409,7 @@ public class PlayGame extends AppCompatActivity {
             editor.putString("p1w", String.valueOf(p1Win));
 
         }else{
-            pWin.setText(p2Name + " Wins!");
-            pCurrent.setText("Sucks 2 Suck");
+            pCurrent.setText(p2Name + " Wins!");
             p2Win = Integer.parseInt(values.getString("p2w", "0"));
             Log.d("CHECK", "player2Score before add = "+p2Win);
             p2Win +=1;
@@ -402,52 +419,5 @@ public class PlayGame extends AppCompatActivity {
         editor.apply();
         win = true;
     }
-
-
-    public int findPlayerOneCharacter(String p1c){
-        p1resID = getResources().getIdentifier("char_a_neutral", "drawable",  getPackageName());
-        if(p1c==""){
-            p1resID = getResources().getIdentifier("star", "drawable",  getPackageName());
-        }
-        else if(p1c=="ap1"){
-            p1resID = getResources().getIdentifier("char_a_neutral", "drawable",  getPackageName());
-        }
-        else if(p1c=="bp1"){
-            p1resID = getResources().getIdentifier("char_b_neutral", "drawable",  getPackageName());
-        }
-        else if(p1c=="cp1"){
-            p1resID = getResources().getIdentifier("char_c_neutral", "drawable",  getPackageName());
-        }
-        else if(p1c=="dp1"){
-            p1resID = getResources().getIdentifier("char_d_neutral", "drawable",  getPackageName());
-        }
-        else if(p1c=="ep1"){
-            p1resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
-        }
-        return p1resID;
-    }
-
-    public int findPlayerTwoCharacter(String p2c){
-        p2resID = getResources().getIdentifier("char_b_neutral", "drawable",  getPackageName());
-        if(p2c==""){
-            p2resID = getResources().getIdentifier("star2", "drawable",  getPackageName());
-        }
-        else if(p2c=="ap2"){
-            p2resID = getResources().getIdentifier("char_a_neutral", "drawable",  getPackageName());
-        }
-        else if(p2c=="bp2"){
-            p2resID = getResources().getIdentifier("char_b_neutral", "drawable",  getPackageName());
-        }
-        else if(p2c=="cp2"){
-            p2resID = getResources().getIdentifier("char_c_neutral", "drawable",  getPackageName());
-        }
-        else if(p2c=="dp2"){
-            p2resID = getResources().getIdentifier("char_d_neutral", "drawable",  getPackageName());
-        }
-        else if(p2c=="ep2"){
-            p2resID = getResources().getIdentifier("char_e_neutral", "drawable",  getPackageName());
-        }
-        return  p2resID;
-    }
-
+    
 }

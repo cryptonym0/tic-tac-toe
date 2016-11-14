@@ -89,50 +89,50 @@ public class EnterNames extends AppCompatActivity {
             switch (btn.getId()) {
                 //Player 1 Select
                 case R.id.ap1: {
-                    if (p2c == "ap2") {
+                    if (p2c == "ap") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
                         restP1Char();
                         ap1.setBackgroundResource(R.drawable.char_a_win);
-                        p1c = "ap1";
+                        p1c = "ap";
                     }
                     break;
                 }
                 case R.id.bp1: {
-                    if (p2c == "bp2") {
+                    if (p2c == "bp") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p1c = "bp1";
+                        p1c = "bp";
                         restP1Char();
                         bp1.setBackgroundResource(R.drawable.char_b_win);
                     }
                     break;
                 }
                 case R.id.cp1: {
-                    if (p2c == "cp2") {
+                    if (p2c == "cp") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p1c = "cp1";
+                        p1c = "cp";
                         restP1Char();
                         cp1.setBackgroundResource(R.drawable.char_c_win);
                     }
                     break;
                 }
                 case R.id.dp1: {
-                    if (p2c == "dp2") {
+                    if (p2c == "dp") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p1c = "dp1";
+                        p1c = "dp";
                         restP1Char();
                         dp1.setBackgroundResource(R.drawable.char_d_win);
                     }
                     break;
                 }
                 case R.id.ep1: {
-                    if (p2c == "ep2") {
+                    if (p2c == "ep") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p1c = "ep1";
+                        p1c = "ep";
                         restP1Char();
                         ep1.setBackgroundResource(R.drawable.char_e_win);
                     }
@@ -140,50 +140,50 @@ public class EnterNames extends AppCompatActivity {
                 }
                 //Player 2 Select
                 case R.id.ap2: {
-                    if (p1c == "ap1") {
+                    if (p1c == "ap") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p2c = "ap2";
+                        p2c = "ap";
                         restP2Char();
                         ap2.setBackgroundResource(R.drawable.char_a_win);
                     }
                     break;
                 }
                 case R.id.bp2: {
-                    if (p1c == "bp1") {
+                    if (p1c == "bp") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p2c = "bp2";
+                        p2c = "bp";
                         restP2Char();
                         bp2.setBackgroundResource(R.drawable.char_b_win);
                     }
                     break;
                 }
                 case R.id.cp2: {
-                    if (p1c == "cp1") {
+                    if (p1c == "cp") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p2c = "cp2";
+                        p2c = "cp";
                         restP2Char();
                         cp2.setBackgroundResource(R.drawable.char_c_win);
                     }
                     break;
                 }
                 case R.id.dp2: {
-                    if (p1c == "dp1") {
+                    if (p1c == "dp") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p2c = "dp2";
+                        p2c = "dp";
                         restP2Char();
                         dp2.setBackgroundResource(R.drawable.char_d_win);
                     }
                     break;
                 }
                 case R.id.ep2: {
-                    if (p1c == "ep1") {
+                    if (p1c == "ep") {
                         Log.d("CHECK", "CANT CHOOSE THAT GUY");
                     } else {
-                        p2c = "ep2";
+                        p2c = "ep";
                         restP2Char();
                         ep2.setBackgroundResource(R.drawable.char_e_win);
                     }
