@@ -1,4 +1,5 @@
 package com.example.t00055219.tictacded;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -26,13 +27,16 @@ public class PlayGame extends AppCompatActivity {
     String p2Name = "Player 2";
     int p1Win =0, p2Win =0;
     String p1c="", p2c="";
+    int p1resID, p2resID;
 
     //Variables for current Player
     int turn = 1;
     TextView pCurrent;
 
+
     //Variables for current button
     int currentButton;
+
     //bool
     boolean win = false;
 
@@ -40,9 +44,12 @@ public class PlayGame extends AppCompatActivity {
     private Toast g, h;
 
     //Array for board
+    public static int[][] board = new int[3][3];
     public static int[] filled = new int[9];
     ImageButton b[];
 
+    //Possible Wins
+    public int move = 0;
 
     //Make shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
