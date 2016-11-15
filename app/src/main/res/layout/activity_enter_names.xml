@@ -11,8 +11,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.t00055219.tictacded.EnterNames"
     android:orientation="vertical"
-    android:weightSum="5">
-
+    android:weightSum="4"
+    android:background="@drawable/c_select_back"
+    >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -20,12 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
+
         <TextView
             android:text="@string/p1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="18sp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -34,14 +37,17 @@
             android:ems="10"
             android:id="@+id/p1EnterName"
             android:layout_weight="1"
-            android:hint="@string/pNameInput" />
+            android:hint="@string/pNameInput"
+            android:textColor="?attr/actionMenuTextColor"
+            android:shadowColor="@android:color/darker_gray" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="81dp"
-        android:weightSum="5">
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        android:weightSum="5"
+        android:layout_gravity="center">
 
         <ImageButton
             android:layout_width="match_parent"
@@ -87,7 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="18sp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -101,9 +108,10 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="81dp"
-        android:weightSum="5">
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        android:weightSum="5"
+        android:layout_gravity="center">
 
         <ImageButton
             android:layout_width="match_parent"
@@ -151,6 +159,5 @@
             android:id="@+id/saveNameBtn"
             android:layout_weight="1" />
     </LinearLayout>
-
 
 </LinearLayout>

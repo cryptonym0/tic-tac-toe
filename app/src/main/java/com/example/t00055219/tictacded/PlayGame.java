@@ -1,5 +1,4 @@
 package com.example.t00055219.tictacded;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -9,15 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.attr.x;
-import static android.R.attr.y;
+
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
-import static com.example.t00055219.tictacded.R.id.winView;
-import static com.example.t00055219.tictacded.R.string.p1;
+import static com.example.t00055219.tictacded.R.id.p1Img;
+import static com.example.t00055219.tictacded.R.id.p2Img;
 import static com.example.t00055219.tictacded.R.string.p2;
+
 
 public class PlayGame extends AppCompatActivity {
 
@@ -26,16 +26,13 @@ public class PlayGame extends AppCompatActivity {
     String p2Name = "Player 2";
     int p1Win =0, p2Win =0;
     String p1c="", p2c="";
-    int p1resID, p2resID;
 
     //Variables for current Player
     int turn = 1;
     TextView pCurrent;
 
-
     //Variables for current button
     int currentButton;
-
     //bool
     boolean win = false;
 
@@ -43,13 +40,9 @@ public class PlayGame extends AppCompatActivity {
     private Toast g, h;
 
     //Array for board
-    public static int[][] board = new int[3][3];
     public static int[] filled = new int[9];
-    //Current buttin
-    ImageButton b[][];
+    ImageButton b[];
 
-    //Possible Wins
-    public int move = 0;
 
     //Make shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -57,6 +50,7 @@ public class PlayGame extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     //Player emotions
+    ImageView p1Face, p2Face;
     int p1h, p1s, p1m, p1n, p2h, p2s, p2m, p2n;
 
 
@@ -80,21 +74,23 @@ public class PlayGame extends AppCompatActivity {
         Player player2 = new Player(PlayGame.this);
         player1.setEmotions(p1c);
         player2.setEmotions(p2c);
-        p1h = player1.getHappy(p1c);
-        p1s = player1.getSad(p1c);
-        p1m = player1.getMad(p1c);
-        p1n = player1.getNeutral(p1c);
-        p2h = player2.getHappy(p2c);
-        p2s = player2.getSad(p2c);
-        p2m = player2.getMad(p2c);
-        p2n = player2.getNeutral(p2c);
+        p1h = player1.getHappy();
+        p1s = player1.getSad();
+        p1m = player1.getMad();
+        p1n = player1.getNeutral();
+        p2h = player2.getHappy();
+        p2s = player2.getSad();
+        p2m = player2.getMad();
+        p2n = player2.getNeutral();
+        p1Face = (ImageView) findViewById(p1Img);
+        p2Face = (ImageView) findViewById(p2Img);
 
 
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
 
         //Players
-        b = new ImageButton[3][3];
+        b = new ImageButton[9];
         pCurrent = (TextView)findViewById(currentPlayer);
 
         setOnClickListeners();
@@ -243,15 +239,17 @@ public class PlayGame extends AppCompatActivity {
         ImageButton b7 = (ImageButton) findViewById(R.id.btn7);
         ImageButton b8 = (ImageButton) findViewById(R.id.btn8);
         ImageButton b9 = (ImageButton) findViewById(R.id.btn9);
-        b1.setBackgroundResource(R.color.clearColor);
-        b2.setBackgroundResource(R.color.clearColor);
-        b3.setBackgroundResource(R.color.clearColor);;
-        b4.setBackgroundResource(R.color.clearColor);
-        b5.setBackgroundResource(R.color.clearColor);
-        b6.setBackgroundResource(R.color.clearColor);
-        b7.setBackgroundResource(R.color.clearColor);
-        b8.setBackgroundResource(R.color.clearColor);
-        b9.setBackgroundResource(R.color.clearColor);
+        b1.setBackgroundResource(R.color.clearColor2);
+        b2.setBackgroundResource(R.color.clearColor2);
+        b3.setBackgroundResource(R.color.clearColor2);;
+        b4.setBackgroundResource(R.color.clearColor2);
+        b5.setBackgroundResource(R.color.clearColor2);
+        b6.setBackgroundResource(R.color.clearColor2);
+        b7.setBackgroundResource(R.color.clearColor2);
+        b8.setBackgroundResource(R.color.clearColor2);
+        b9.setBackgroundResource(R.color.clearColor2);
+        p1Face.setImageResource(p1n);
+        p2Face.setImageResource(p2n);
         //Reset Board
         populateBoard();
 
@@ -267,44 +265,24 @@ public class PlayGame extends AppCompatActivity {
     }
 
     /*******************************************
-    * Populate Board
-    * ******************************************/
+     * Populate Board
+     * ******************************************/
     public void populateBoard(){
-        //Ai #TODO
-        //Get dem btns
-        b[0][0] = (ImageButton) findViewById(R.id.btn1);
-        b[0][1] = (ImageButton) findViewById(R.id.btn2);
-        b[0][2] = (ImageButton) findViewById(R.id.btn3);
-        b[1][0] = (ImageButton) findViewById(R.id.btn4);
-        b[1][1] = (ImageButton) findViewById(R.id.btn5);
-        b[1][2] = (ImageButton) findViewById(R.id.btn6);
-        b[2][0] = (ImageButton) findViewById(R.id.btn7);
-        b[2][1] = (ImageButton) findViewById(R.id.btn8);
-        b[2][2] = (ImageButton) findViewById(R.id.btn9);
-        for(int i=0; i<3; ++i){
-            for(int j=0; j<3; ++j){
-                board[i][j] = 0;
-            }
-        }
+        b[0] = (ImageButton) findViewById(R.id.btn1);
+        b[1] = (ImageButton) findViewById(R.id.btn2);
+        b[2] = (ImageButton) findViewById(R.id.btn3);
+        b[3] = (ImageButton) findViewById(R.id.btn4);
+        b[4] = (ImageButton) findViewById(R.id.btn5);
+        b[5] = (ImageButton) findViewById(R.id.btn6);
+        b[6] = (ImageButton) findViewById(R.id.btn7);
+        b[7] = (ImageButton) findViewById(R.id.btn8);
+        b[8] = (ImageButton) findViewById(R.id.btn9);
         for(int i=0; i<9; ++i){
             filled[i]=0;
         }
-        //Set Text View #// TODO: 11/10/2016
 
     }//End Populate Board
 
-    /*******************************************
-     * Player Makes a Move
-     * ******************************************/
-    public static void makeAMove(int move[]){
-        //Input validation?
-
-        //If win check
-        //Else
-        //Int
-        int x, y;
-
-    }
 
     /*******************************************
      * Set On Click Listener Method
@@ -362,8 +340,8 @@ public class PlayGame extends AppCompatActivity {
 
         //Horizontal win
         if((filled[0] == c && filled[1] == c && filled[2] == c) |
-           (filled[3] == c && filled[4] == c && filled[5] == c) |
-           (filled[6] == c && filled[7] == c && filled[8] == c)){
+                (filled[3] == c && filled[4] == c && filled[5] == c) |
+                (filled[6] == c && filled[7] == c && filled[8] == c)){
             setWin(c);
         }
         //Vertical win
@@ -403,21 +381,21 @@ public class PlayGame extends AppCompatActivity {
         if(c==1){
             pCurrent.setText(p1Name + " Wins!");
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
-            Log.d("CHECK", "playerOneScore before add = "+p1Win);
+            p1Face.setImageResource(p1h);
+            p2Face.setImageResource(p2m);
             p1Win +=1;
-            Log.d("CHECK", "playerOneScore after add = "+p1Win);
             editor.putString("p1w", String.valueOf(p1Win));
 
         }else{
             pCurrent.setText(p2Name + " Wins!");
             p2Win = Integer.parseInt(values.getString("p2w", "0"));
-            Log.d("CHECK", "player2Score before add = "+p2Win);
+            p1Face.setImageResource(p1m);
+            p2Face.setImageResource(p2h);
             p2Win +=1;
-            Log.d("CHECK", "player2Score after add = "+p2Win);
             editor.putString("p2w", String.valueOf(p2Win));
         }
         editor.apply();
         win = true;
     }
-    
+
 }

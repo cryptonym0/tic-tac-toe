@@ -7,7 +7,7 @@
         <item>Score</item>
         <item>Quit</item>
     </string-array>
-    <string name="app_name">TicTacDed</string>
+    <string name="app_name">TicTacToe</string>
     <string name="action_settings">Settings</string>
     <string name="mainTitle">Tic Tac Toe</string>
     <string name="startButton">Play</string>
@@ -39,4 +39,8 @@
     <string name="zero">0</string>
     <string name="sReset">Reset Score</string>
     <string name="pReset">New Characters</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

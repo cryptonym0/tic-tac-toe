@@ -3,13 +3,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:context="com.example.t00055219.tictacded.MenuListFragmentA"
-    android:background="@android:color/holo_red_light"
     android:id="@+id/menuFragmentLayoutA">
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/menuItemsListView"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        style="@android:style/Widget.DeviceDefault.Light.ExpandableListView"
+        />
 
 </FrameLayout>

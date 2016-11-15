@@ -69,19 +69,25 @@ public class Player{
             mad = mContext.getResources().getIdentifier("char_e_mad", "drawable", mContext.getPackageName());
             neutral = mContext.getResources().getIdentifier("char_e_neutral", "drawable", mContext.getPackageName());
         }
+        else if(c=="ai"){
+            happy = mContext.getResources().getIdentifier("ai_win", "drawable", mContext.getPackageName());
+            sad = mContext.getResources().getIdentifier("ai_sad", "drawable", mContext.getPackageName());
+            mad = mContext.getResources().getIdentifier("ai_mad", "drawable", mContext.getPackageName());
+            neutral = mContext.getResources().getIdentifier("ai_neutral", "drawable", mContext.getPackageName());
+        }
 
     }
 
-    public int getHappy(String c){
+    public int getHappy(){
         return happy;
     }
-    public int getSad(String c){
+    public int getSad(){
         return sad;
     }
-    public int getMad(String c){
+    public int getMad(){
         return mad;
     }
-    public int getNeutral(String c){
+    public int getNeutral(){
         return neutral;
     }
 

@@ -2,9 +2,6 @@ package com.example.t00055219.tictacded;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,25 +12,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.logging.LogRecord;
 import android.os.Handler;
 
-import static android.R.attr.level;
-import static android.R.attr.x;
-import static android.R.attr.y;
-import static android.R.id.toggle;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.example.t00055219.tictacded.R.id.aiEmotion;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
-import static com.example.t00055219.tictacded.R.id.fill;
 import static com.example.t00055219.tictacded.R.id.winView;
-import static com.example.t00055219.tictacded.R.string.p1;
-import static com.example.t00055219.tictacded.R.string.p2;
+
 
 
 
@@ -50,8 +36,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     TextView pCurrent;
     TextView pWin;
     ImageView aiFace;
-
-    //Variables for current button
+    int aih, ais, aim, ain, p1h, p1s, p1m, p1n;
     int currentButton;
 
     //bool
@@ -77,20 +62,29 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game_girlfriend);
 
-        aiFace      = (ImageView) findViewById(aiEmotion);
-        values      = getSharedPreferences(PREFS_NAME, 0);
-        editor      = values.edit();
-        p1Name      = values.getString("p1", "Player 1");
-        p1c         = values.getString("p1c", "p1c");
+        aiFace              = (ImageView) findViewById(aiEmotion);
+        values              = getSharedPreferences(PREFS_NAME, 0);
+        editor              = values.edit();
+        p1Name              = values.getString("p1", "Player 1");
+        p1c                 = values.getString("p1c", "p1c");
         editor.apply();
-        g           = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
-        h           = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
+        g                   = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
+        h                   = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
         //Players
-        b           = new ImageButton[9];
-        pCurrent    = (TextView) findViewById(currentPlayer);
-        pWin        = (TextView) findViewById(winView);
-        setOnClickListeners();
+        b                   = new ImageButton[9];
+        pCurrent            = (TextView) findViewById(currentPlayer);
+        pWin                = (TextView) findViewById(winView);
+        Player player1      = new Player(PlayGameGirlfriend.this);
+        Player girlfriend   = new Player(PlayGameGirlfriend.this);
+        player1.setEmotions(p1c);
+        girlfriend.setEmotions("ai");
+        aih = girlfriend.getHappy();
+        ais = girlfriend.getSad();
+        aim = girlfriend.getMad();
+        ain = girlfriend.getNeutral();
+        p1n = player1.getNeutral();
 
+        setOnClickListeners();
         reset();//Reset values
 
     }
@@ -128,9 +122,9 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             ImageButton btn = (ImageButton) arg0;
             if (win) {
                 h.show();
+
             } else {
-
-
+                if (turn != 2) {
                     switch (btn.getId()) {
                         //Button 1
                         case R.id.btn1: {
@@ -156,7 +150,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                                 if (turn == 2) {
                                     Girlfriend gf = new Girlfriend();
                                     gf.execute(currentButton);
-//                                    gf.execute(currentButton);
+
                                 }
                             }
                             break;
@@ -183,7 +177,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                             } else {
                                 placeStar(btn);
 
-                                if(turn==2){
+                                if (turn == 2) {
                                     Girlfriend gf = new Girlfriend();
                                     gf.execute(currentButton);
                                 }
@@ -211,7 +205,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                                 g.show();
                             } else {
                                 placeStar(btn);
-                                if(turn==2){
+                                if (turn == 2) {
                                     Girlfriend gf = new Girlfriend();
                                     gf.execute(currentButton);
                                 }
@@ -225,7 +219,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                                 g.show();
                             } else {
                                 placeStar(btn);
-                                if(turn==2){
+                                if (turn == 2) {
                                     Girlfriend gf = new Girlfriend();
                                     gf.execute(currentButton);
                                 }
@@ -239,7 +233,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                                 g.show();
                             } else {
                                 placeStar(btn);
-                                if(turn==2){
+                                if (turn == 2) {
                                     Girlfriend gf = new Girlfriend();
                                     gf.execute(currentButton);
                                 }
@@ -253,7 +247,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                                 g.show();
                             } else {
                                 placeStar(btn);
-                                if(turn==2){
+                                if (turn == 2) {
                                     Girlfriend gf = new Girlfriend();
                                     gf.execute(currentButton);
                                 }
@@ -261,21 +255,16 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                             break;
                         }
                     }//Button Switch
+                }
+                else{
+                    Girlfriend gf = new Girlfriend();
+                    gf.execute(currentButton);
+                }
 
             }
         }
     };//On click listener
 
-    public void toggleTurn(int lastTurn, int turn){
-        if(lastTurn == 1){
-            turn = 2;
-            lastTurn = 2;
-        }
-        else{
-            turn = 1;
-            lastTurn = 2;
-        }
-    }
     //Reset Function
     public void reset() {
         Log.d("Reset Called", "Test");
@@ -297,12 +286,11 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         b7.setBackgroundResource(R.color.clearColor);
         b8.setBackgroundResource(R.color.clearColor);
         b9.setBackgroundResource(R.color.clearColor);
+        aiFace.setImageResource(ain);
         //Reset Board
         populateBoard();
-        //Close win
         win = false;
-        //Set All Text Views
-        toggleTurn(lastTurn, turn);
+//        toggleTurn(lastTurn, turn);
         if (turn == 1) {
             pCurrent.setText(p1Name + "'s Turn");
         } else if (turn == 2) {
@@ -328,7 +316,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         b[6] = (ImageButton) findViewById(R.id.btn7);
         b[7] = (ImageButton) findViewById(R.id.btn8);
         b[8] = (ImageButton) findViewById(R.id.btn9);
-
         for (int i = 0; i < 9; ++i) {
             filled[i] = 0;
             aiArr[i] = " ";
@@ -362,13 +349,13 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         if (filled[currentButton] == 0) {
             if (turn == 1) {
                 filled[currentButton] = 1;
-                btn.setBackgroundResource(findPlayerOneCharacter(p1c));
+                btn.setBackgroundResource(p1n);
                 pCurrent.setText("Saika's Turn");
                 checkWin(turn);
                 turn = 2;
             } else if (turn == 2) {
                 filled[currentButton] = 2;
-                btn.setBackgroundResource(getEmotion("neutral"));
+                btn.setBackgroundResource(ain);
                 pCurrent.setText(p1Name + "'s Turn");
                 checkWin(turn);
                 turn = 1;
@@ -386,8 +373,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
      * Check If Win Method
      ******************************************/
     public void checkWin(int c) {
-        //This is gunna be messy :)
-
         //Horizontal win
         if ((filled[0] == c && filled[1] == c && filled[2] == c) |
                 (filled[3] == c && filled[4] == c && filled[5] == c) |
@@ -409,8 +394,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         else if (isFull(filled)) {
             pWin.setText("Nice Try..");
             pCurrent.setText("It's A Draw!");
-            aiFace.setImageResource(getEmotion("sad"));
-
+            aiFace.setImageResource(ais);
         }
     }
 
@@ -435,7 +419,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         if (c == 1) {
             pWin.setText("...");
             pCurrent.setText(p1Name + " Wins!");
-            aiFace.setImageResource(getEmotion("mad"));
+            aiFace.setImageResource(aim);
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
             p1Win += 1;
             editor.putString("p1w", String.valueOf(p1Win));
@@ -443,7 +427,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         } else {
             pWin.setText("Hehe!");
             pCurrent.setText("Saika Wins!");
-            aiFace.setImageResource(getEmotion("happy"));
+            aiFace.setImageResource(aih);
             aiWin = Integer.parseInt(values.getString("aiw", "0"));
             aiWin += 1;
             editor.putString("aiw", String.valueOf(aiWin));
@@ -452,41 +436,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         win = true;
     }
 
-
-    public int findPlayerOneCharacter(String p1c) {
-        p1resID = getResources().getIdentifier("star", "drawable", getPackageName());
-        if (p1c == "") {
-            p1resID = getResources().getIdentifier("star", "drawable", getPackageName());
-        } else if (p1c == "ap") {
-            p1resID = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
-        } else if (p1c == "bp") {
-            p1resID = getResources().getIdentifier("char_b_neutral", "drawable", getPackageName());
-        } else if (p1c == "cp") {
-            p1resID = getResources().getIdentifier("char_c_neutral", "drawable", getPackageName());
-        } else if (p1c == "dp") {
-            p1resID = getResources().getIdentifier("char_d_neutral", "drawable", getPackageName());
-        } else if (p1c == "ep") {
-            p1resID = getResources().getIdentifier("char_e_neutral", "drawable", getPackageName());
-        }
-        return p1resID;
-    }
-
-    public int getEmotion(String e){
-
-        if(e == "happy"){
-            aiEmote = getResources().getIdentifier("char_a_win", "drawable", getPackageName());
-        }
-        else if(e == "sad"){
-            aiEmote = getResources().getIdentifier("char_a_notpicked", "drawable", getPackageName());
-        }
-        else if(e == "mad"){
-            aiEmote = getResources().getIdentifier("char_a_lose", "drawable", getPackageName());
-        }
-        else{
-            aiEmote = getResources().getIdentifier("char_a_neutral", "drawable", getPackageName());
-        }
-        return aiEmote;
-    }
 
     /*******************************************
      * AI STUFF
@@ -512,8 +461,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-
-//            b[myMove].performClick();
         }
 
 
@@ -521,8 +468,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
         }
-
-        //String Array For the AI
 
 
         public String inverse(String l)
@@ -622,13 +567,18 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         }
         public int makeMove(int index)
         {
+            Log.d("Saikas Move", ""+index);
             aiArr[index] = "X";
             if(gameOver(aiArr)) { return -1; }
             if(drawGame(aiArr)) { return -2; }
             ResultMM res = MinMax(aiArr,"MAX", 0, 0);
             int i = res.getIntrus();
             aiArr[i] = "O";
-            b[i].performClick();
+            filled[i] = 2;
+            b[i].setBackgroundResource(ain);
+            pCurrent.setText(p1Name + "'s Turn");
+            checkWin(turn);
+            turn = 1;
             if(gameOver(aiArr)) { return i+20;}
             if(drawGame(aiArr)) { return i-30;}
             return i;
@@ -672,5 +622,4 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             return -1;
         }
     }
-
 }
