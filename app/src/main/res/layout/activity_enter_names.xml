@@ -11,9 +11,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.t00055219.tictacded.EnterNames"
     android:orientation="vertical"
-    android:weightSum="4"
-    android:background="@drawable/c_select_back"
-    >
+    android:weightSum="5"
+    android:background="@drawable/c_select_back">
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -152,11 +152,13 @@
         android:layout_weight="1">
 
         <Button
+            android:paddingTop="5dp"
             android:text="@string/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/saveNameBtn"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/btnshape"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -137,7 +137,8 @@
             android:id="@+id/sReset"
             android:textSize="30sp"
             android:layout_marginTop="5sp"
-            android:layout_marginBottom="5sp" />
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/btnshape"/>
 
     </LinearLayout>
 
@@ -154,7 +155,8 @@
             android:layout_gravity="center_horizontal"
             android:textSize="30sp"
             android:layout_marginTop="5sp"
-            android:layout_marginBottom="5sp" />
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/btnshape"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -164,7 +166,8 @@
             android:layout_gravity="center_horizontal"
             android:textSize="30sp"
             android:layout_marginTop="5sp"
-            android:layout_marginBottom="5sp" />
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/btnshape"/>
 
 
     </LinearLayout>

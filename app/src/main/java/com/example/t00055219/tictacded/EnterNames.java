@@ -69,8 +69,6 @@ public class EnterNames extends AppCompatActivity {
             //Check current
             p1Saved = values.getString("p1", "Player 1");
             p2Saved = values.getString("p2", "Player 2");
-            p1Saved = values.getString("p1c", "p1c");
-            p2Saved = values.getString("p2c", "p2c");
 
             noValueCheckMe();
             resetCheckMe();

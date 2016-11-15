@@ -1,5 +1,4 @@
 package com.example.t00055219.tictacded;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -32,7 +31,7 @@ public class PlayGame extends AppCompatActivity {
     //Variables for current Player
     int turn = 1;
     TextView pCurrent;
-
+    int wa, wb, wc;
 
     //Variables for current button
     int currentButton;
@@ -44,12 +43,9 @@ public class PlayGame extends AppCompatActivity {
     private Toast g, h;
 
     //Array for board
-    public static int[][] board = new int[3][3];
     public static int[] filled = new int[9];
     ImageButton b[];
 
-    //Possible Wins
-    public int move = 0;
 
     //Make shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -91,7 +87,6 @@ public class PlayGame extends AppCompatActivity {
         p2n = player2.getNeutral();
         p1Face = (ImageView) findViewById(p1Img);
         p2Face = (ImageView) findViewById(p2Img);
-
 
         g = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
         h = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
@@ -317,7 +312,6 @@ public class PlayGame extends AppCompatActivity {
             if(turn == 1){
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(p1n);
-                Log.d("IMG", ""+p1n);
                 pCurrent.setText("Current Player: " + p2Name);
                 checkWin(turn);
                 turn = 2;
@@ -346,20 +340,53 @@ public class PlayGame extends AppCompatActivity {
         //This is gunna be messy :)
 
         //Horizontal win
-        if((filled[0] == c && filled[1] == c && filled[2] == c) |
-                (filled[3] == c && filled[4] == c && filled[5] == c) |
-                (filled[6] == c && filled[7] == c && filled[8] == c)){
+        if(filled[0] == c && filled[1] == c && filled[2] == c){
+            wa=0;
+            wb=1;
+            wc=2;
+            setWin(c);
+        }else if(filled[3] == c && filled[4] == c && filled[5] == c){
+            wa=3;
+            wb=4;
+            wc=5;
+            setWin(c);
+        }else if(filled[6] == c && filled[7] == c && filled[8] == c){
+            wa=6;
+            wb=7;
+            wc=8;
+            setWin(c);
+        }//Vertical win
+        else if(filled[0] == c && filled[3] == c && filled[6] == c){
+            wa=0;
+            wb=3;
+            wc=6;
             setWin(c);
         }
-        //Vertical win
-        else if((filled[0] == c && filled[3] == c && filled[6] == c) |
-                (filled[1] == c && filled[4] == c && filled[7] == c) |
-                (filled[2] == c && filled[5] == c && filled[8] == c)){
+
+        else if(filled[1] == c && filled[4] == c && filled[7] == c){
+            wa=1;
+            wb=7;
+            wc=4;
+            setWin(c);
+        }
+
+        else if(filled[2] == c && filled[5] == c && filled[8] == c){
+            wa=2;
+            wb=5;
+            wc=8;
             setWin(c);
         }
         //Diagonal Win
-        else if((filled[0] == c && filled[4] == c && filled[8] == c) |
-                (filled[6] == c && filled[4] == c && filled[2] == c)){
+        else if(filled[0] == c && filled[4] == c && filled[8] == c){
+            wa=0;
+            wb=4;
+            wc=8;
+            setWin(c);
+        }
+        else if(filled[6] == c && filled[4] == c && filled[2] == c){
+            wa=6;
+            wb=4;
+            wc=2;
             setWin(c);
         }
         //Draw
@@ -367,6 +394,15 @@ public class PlayGame extends AppCompatActivity {
             pCurrent.setText("DRAW!");
 
         }
+    }
+
+    public void setWinBackRound(int a, int b, int c, ImageButton arr[], int emote){
+        try {
+            arr[a].setBackgroundResource(emote);
+            arr[b].setBackgroundResource(emote);
+            arr[c].setBackgroundResource(emote);
+        }catch(NumberFormatException e){}
+
     }
     /*******************************************
      * Check If Board is Full
@@ -390,6 +426,7 @@ public class PlayGame extends AppCompatActivity {
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
             p1Face.setImageResource(p1h);
             p2Face.setImageResource(p2m);
+            setWinBackRound(wa, wb, wc, b, p1h);
             p1Win +=1;
             editor.putString("p1w", String.valueOf(p1Win));
 
@@ -398,6 +435,7 @@ public class PlayGame extends AppCompatActivity {
             p2Win = Integer.parseInt(values.getString("p2w", "0"));
             p1Face.setImageResource(p1m);
             p2Face.setImageResource(p2h);
+            setWinBackRound(wa, wb, wc, b, p2h);
             p2Win +=1;
             editor.putString("p2w", String.valueOf(p2Win));
         }

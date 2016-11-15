@@ -30,6 +30,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     int p1Win = 0, aiWin = 0;
     String p1c = "";
     int p1resID, airesID, aiEmote;
+    int wa, wb, wc;
 
     //Variables for current Player
     int turn = 1;
@@ -122,7 +123,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             ImageButton btn = (ImageButton) arg0;
             if (win) {
                 h.show();
-
             } else {
                 if (turn != 2) {
                     switch (btn.getId()) {
@@ -294,7 +294,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         if (turn == 1) {
             pCurrent.setText(p1Name + "'s Turn");
         } else if (turn == 2) {
-            pCurrent.setText("Saika's Turn");
+            pCurrent.setText("AI's Turn");
             Random rand = new Random();
             int x =rand.nextInt(8);
             Girlfriend gf = new Girlfriend();
@@ -350,7 +350,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             if (turn == 1) {
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(p1n);
-                pCurrent.setText("Saika's Turn");
+                pCurrent.setText("AI's Turn");
                 checkWin(turn);
                 turn = 2;
             } else if (turn == 2) {
@@ -369,25 +369,70 @@ public class PlayGameGirlfriend extends AppCompatActivity {
 
     }
 
+    public void setWinBackRound(int a, int b, int c, ImageButton arr[], int emote){
+        try {
+            arr[a].setBackgroundResource(emote);
+            arr[b].setBackgroundResource(emote);
+            arr[c].setBackgroundResource(emote);
+        }catch(NumberFormatException e){}
+
+    }
+
     /*******************************************
      * Check If Win Method
      ******************************************/
-    public void checkWin(int c) {
+
+    public void checkWin(int c){
+        //This is gunna be messy :)
+
         //Horizontal win
-        if ((filled[0] == c && filled[1] == c && filled[2] == c) |
-                (filled[3] == c && filled[4] == c && filled[5] == c) |
-                (filled[6] == c && filled[7] == c && filled[8] == c)) {
+        if(filled[0] == c && filled[1] == c && filled[2] == c){
+            wa=0;
+            wb=1;
+            wc=2;
+            setWin(c);
+        }else if(filled[3] == c && filled[4] == c && filled[5] == c){
+            wa=3;
+            wb=4;
+            wc=5;
+            setWin(c);
+        }else if(filled[6] == c && filled[7] == c && filled[8] == c){
+            wa=6;
+            wb=7;
+            wc=8;
+            setWin(c);
+        }//Vertical win
+        else if(filled[0] == c && filled[3] == c && filled[6] == c){
+            wa=0;
+            wb=3;
+            wc=6;
             setWin(c);
         }
-        //Vertical win
-        else if ((filled[0] == c && filled[3] == c && filled[6] == c) |
-                (filled[1] == c && filled[4] == c && filled[7] == c) |
-                (filled[2] == c && filled[5] == c && filled[8] == c)) {
+
+        else if(filled[1] == c && filled[4] == c && filled[7] == c){
+            wa=1;
+            wb=7;
+            wc=4;
+            setWin(c);
+        }
+
+        else if(filled[2] == c && filled[5] == c && filled[8] == c){
+            wa=2;
+            wb=5;
+            wc=8;
             setWin(c);
         }
         //Diagonal Win
-        else if ((filled[0] == c && filled[4] == c && filled[8] == c) |
-                (filled[6] == c && filled[4] == c && filled[2] == c)) {
+        else if(filled[0] == c && filled[4] == c && filled[8] == c){
+            wa=0;
+            wb=4;
+            wc=8;
+            setWin(c);
+        }
+        else if(filled[6] == c && filled[4] == c && filled[2] == c){
+            wa=6;
+            wb=4;
+            wc=2;
             setWin(c);
         }
         //Draw
@@ -420,13 +465,15 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             pWin.setText("...");
             pCurrent.setText(p1Name + " Wins!");
             aiFace.setImageResource(aim);
+            setWinBackRound(wa, wb, wc, b, p1h);
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
             p1Win += 1;
             editor.putString("p1w", String.valueOf(p1Win));
 
         } else {
             pWin.setText("Hehe!");
-            pCurrent.setText("Saika Wins!");
+            pCurrent.setText("AI Wins!");
+            setWinBackRound(wa, wb, wc, b, aih);
             aiFace.setImageResource(aih);
             aiWin = Integer.parseInt(values.getString("aiw", "0"));
             aiWin += 1;
@@ -567,7 +614,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         }
         public int makeMove(int index)
         {
-            Log.d("Saikas Move", ""+index);
+            Log.d("AI's Move", ""+index);
             aiArr[index] = "X";
             if(gameOver(aiArr)) { return -1; }
             if(drawGame(aiArr)) { return -2; }

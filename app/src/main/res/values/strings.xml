@@ -26,7 +26,7 @@
     <!--Set Names-->
     <string name="p1">Player 1</string>
     <string name="p2">Player 2</string>
-    <string name="saika">Saika</string>
+    <string name="saika">AI</string>
     <string name="pNameInput">Enter Name</string>
     <string name="saveButton">Save</string>
 
@@ -40,7 +40,5 @@
     <string name="sReset">Reset Score</string>
     <string name="pReset">New Characters</string>
 
-    <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

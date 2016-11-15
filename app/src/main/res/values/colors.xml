@@ -7,5 +7,6 @@
     <color name="clearColor2">#80BE9EDB</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="general">#802A8484</color>
 
 </resources>
