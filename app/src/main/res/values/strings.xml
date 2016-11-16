@@ -39,6 +39,9 @@
     <string name="zero">0</string>
     <string name="sReset">Reset Score</string>
     <string name="pReset">New Characters</string>
+    <string name="splash">Tic Tac Toe</string>
+    <string name="splash2">App By Elycia Buckley</string>
+    <string name="splash3">Artwork By Charlotte Mahoney</string>
 
 
 </resources>
