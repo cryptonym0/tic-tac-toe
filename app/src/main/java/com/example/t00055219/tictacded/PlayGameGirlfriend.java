@@ -2,6 +2,7 @@ package com.example.t00055219.tictacded;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     //Current button for AI
     ImageButton b[];
     String[] aiArr = new String[9];
-    static int lastTurn = 1;
+
 
     //Make shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -84,7 +85,6 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         aim = girlfriend.getMad();
         ain = girlfriend.getNeutral();
         p1n = player1.getNeutral();
-
         setOnClickListeners();
         reset();//Reset values
 
@@ -125,6 +125,8 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                 h.show();
             } else {
                 if (turn != 2) {
+                    aiFace.setImageResource(ais);
+                    pWin.setText("...");
                     switch (btn.getId()) {
                         //Button 1
                         case R.id.btn1: {
@@ -294,7 +296,9 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         if (turn == 1) {
             pCurrent.setText(p1Name + "'s Turn");
         } else if (turn == 2) {
-            pCurrent.setText("AI's Turn");
+            aiFace.setImageResource(ais);
+            pWin.setText("hmm..");
+            pCurrent.setText("AI is Thinking...");
             Random rand = new Random();
             int x =rand.nextInt(8);
             Girlfriend gf = new Girlfriend();
@@ -350,8 +354,9 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             if (turn == 1) {
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(p1n);
-                pCurrent.setText("AI's Turn");
+                pCurrent.setText("AI is Thinking...");
                 checkWin(turn);
+                if(!win && !isFull(filled)){pickPlaceSound(p1c);}
                 turn = 2;
             } else if (turn == 2) {
                 filled[currentButton] = 2;
@@ -439,6 +444,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         else if (isFull(filled)) {
             pWin.setText("Nice Try..");
             pCurrent.setText("It's A Draw!");
+            pickTieSound(p1c);
             aiFace.setImageResource(ais);
         }
     }
@@ -462,7 +468,8 @@ public class PlayGameGirlfriend extends AppCompatActivity {
     private void setWin(int c) {
 
         if (c == 1) {
-            pWin.setText("...");
+            pickWinSound(p1c);
+            pWin.setText("hmm..");
             pCurrent.setText(p1Name + " Wins!");
             aiFace.setImageResource(aim);
             setWinBackRound(wa, wb, wc, b, p1h);
@@ -471,6 +478,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             editor.putString("p1w", String.valueOf(p1Win));
 
         } else {
+            pickLoseSound(p1c);
             pWin.setText("Hehe!");
             pCurrent.setText("AI Wins!");
             setWinBackRound(wa, wb, wc, b, aih);
@@ -636,10 +644,17 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             Runnable r = new Runnable() {
                 @Override
                 public void run(){
+
                     makeMove(x);
+                    if(!win && !isFull(filled)){
+                        pWin.setText("^.^");
+                        aiFace.setImageResource(ain);
+                        final MediaPlayer aiSound = MediaPlayer.create(getApplicationContext(), R.raw.magic);
+                        aiSound.start();}
                 }
             };
             ha.postDelayed(r, 500);
+
         }
     }
 
@@ -669,5 +684,56 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             return -1;
         }
     }
+
+    public void pickWinSound(String myGuy){
+        MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elywin1);
+        MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matwin1);
+        MediaPlayer c1pick = MediaPlayer.create(this, R.raw.char1win);
+        MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dywin4);
+        MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellwin4);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+    public void pickLoseSound(String myGuy){
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elylose1);
+        final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matlose2);
+        final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.charlose);
+        final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dylose2);
+        final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellose5);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+    public void pickTieSound(String myGuy){
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elylose2);
+        final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.mattye);
+        final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.chartye);
+        final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dytie);
+        final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellose3);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+    //Danger
+    public void pickPlaceSound(String myGuy){
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elygo1);
+        final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matgo3);
+        final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.chargo2);
+        final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dygo);
+        final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellmove);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+
 
 }

@@ -39,6 +39,7 @@ android:background="@drawable/c_vs_ai">
                 android:scaleType="fitCenter"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -54,6 +55,9 @@ android:background="@drawable/c_vs_ai">
                 android:id="@+id/winView"
                 android:textSize="34sp"
                 android:textColor="@android:color/white"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 />
 
         </LinearLayout>
@@ -73,7 +77,8 @@ android:background="@drawable/c_vs_ai">
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
                 android:foregroundGravity="bottom"
                 android:layout_gravity="bottom"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/btnshape"/>
 
             <Button
                 android:text="@string/resetButton"
@@ -83,7 +88,8 @@ android:background="@drawable/c_vs_ai">
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
                 android:foregroundGravity="bottom"
                 android:layout_gravity="bottom"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/btnshape"/>
         </LinearLayout>
 
 

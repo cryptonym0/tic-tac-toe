@@ -1,7 +1,13 @@
 package com.example.t00055219.tictacded;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.util.HashMap;
+import java.util.Random;
+
+import static android.R.attr.x;
+import static android.R.id.toggle;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
 import static com.example.t00055219.tictacded.R.id.p1Img;
 import static com.example.t00055219.tictacded.R.id.p2Img;
@@ -20,13 +31,15 @@ import static com.example.t00055219.tictacded.R.string.p2;
 
 
 public class PlayGame extends AppCompatActivity {
-
+    Handler ha = new Handler();
     //Player Names
     String p1Name = "Player 1";
     String p2Name = "Player 2";
     int p1Win =0, p2Win =0;
     String p1c="", p2c="";
     int p1resID, p2resID;
+    Random rand = new Random();
+
 
     //Variables for current Player
     int turn = 1;
@@ -97,6 +110,7 @@ public class PlayGame extends AppCompatActivity {
 
         setOnClickListeners();
         reset();//Reset values
+
     }
 
     //Options action
@@ -121,6 +135,15 @@ public class PlayGame extends AppCompatActivity {
             }
         }
     };
+
+//    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+//    {
+//        @Override
+//        public void onCompletion(MediaPlayer mp)
+//        {
+//            // Code to start the next audio in the sequence
+//        }
+//    });
 
     //Game Action handles gameplay
     //listener for which button on the game board was hit
@@ -259,10 +282,10 @@ public class PlayGame extends AppCompatActivity {
         win = false;
         //Set All Text Views
         if(turn == 1){
-            pCurrent.setText("Current Player: " + p1Name);
+            pCurrent.setText(p1Name +"'s Turn");
         }
         else if(turn == 2) {
-            pCurrent.setText("Current Player: " + p2Name);
+            pCurrent.setText(p2Name+"'s Turn");
         }
     }
 
@@ -312,15 +335,17 @@ public class PlayGame extends AppCompatActivity {
             if(turn == 1){
                 filled[currentButton] = 1;
                 btn.setBackgroundResource(p1n);
-                pCurrent.setText("Current Player: " + p2Name);
+                pCurrent.setText(p2Name+"'s Turn");
                 checkWin(turn);
+                if(!win && !isFull(filled)){pickPlaceSound(p1c);}
                 turn = 2;
             }
             else if(turn == 2){
                 filled[currentButton] = 2;
                 btn.setBackgroundResource(p2n);
-                pCurrent.setText("Current Player: " + p1Name);
+                pCurrent.setText(p1Name+"'s Turn");
                 checkWin(turn);
+                if(!win && !isFull(filled)){pickPlaceSound(p2c);}
                 turn = 1;
             }else{
                 Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT).show();
@@ -391,7 +416,15 @@ public class PlayGame extends AppCompatActivity {
         }
         //Draw
         else if(isFull(filled)){
-            pCurrent.setText("DRAW!");
+            if(turn==1){
+                pickTieSound(p1c);
+            }else{
+                pickTieSound(p2c);
+            }
+
+            pCurrent.setText("It's A Tie!");
+            p1Face.setImageResource(p1s);
+            p2Face.setImageResource(p2s);
 
         }
     }
@@ -422,6 +455,15 @@ public class PlayGame extends AppCompatActivity {
     private void setWin(int c){
 
         if(c==1){
+            pickWinSound(p1c);
+//            Runnable r = new Runnable() {
+//                @Override
+//                public void run(){
+//                    pickLoseSound(p2c);
+//                }
+//            };
+//            ha.postDelayed(r, 5000);
+
             pCurrent.setText(p1Name + " Wins!");
             p1Win = Integer.parseInt(values.getString("p1w", "0"));
             p1Face.setImageResource(p1h);
@@ -431,6 +473,8 @@ public class PlayGame extends AppCompatActivity {
             editor.putString("p1w", String.valueOf(p1Win));
 
         }else{
+            pickWinSound(p2c);
+//            pickLoseSound(p1c);
             pCurrent.setText(p2Name + " Wins!");
             p2Win = Integer.parseInt(values.getString("p2w", "0"));
             p1Face.setImageResource(p1m);
@@ -442,5 +486,221 @@ public class PlayGame extends AppCompatActivity {
         editor.apply();
         win = true;
     }
+
+//    public void pickWinSound(String myGuy){
+
+
+    public void pickWinSound(String myGuy){
+        MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elywin1);
+        MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matwin1);
+        MediaPlayer c1pick = MediaPlayer.create(this, R.raw.char1win);
+        MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dywin4);
+        MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellwin4);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+    public void pickLoseSound(String myGuy){
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elylose1);
+        final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matlose2);
+        final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.charlose);
+        final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dylose2);
+        final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellose5);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+    public void pickTieSound(String myGuy){
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elylose2);
+        final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.mattye);
+        final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.chartye);
+        final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dytie);
+        final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellose3);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+    //Danger
+    public void pickPlaceSound(String myGuy){
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elygo1);
+        final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matgo3);
+        final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.chargo2);
+        final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dygo);
+        final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellmove);
+        if(myGuy=="ap"){a1pick.start();}
+        if(myGuy=="bp"){b1pick.start();}
+        if(myGuy=="cp"){c1pick.start();}
+        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="ep"){e1pick.start();}
+    }
+
+
+
+//    public class WinSound extends AsyncTask<SoundPool, String, String> {
+//
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected String doInBackground(SoundPool... poolFriends) {
+//            try {
+//                //For each SoundPool object
+//                // int soundLength = however long the SoundPool object is
+//                // Play the sound
+//                // Thread.sleep(soundLength);
+////                winSoundPoolMap.put(1, winSoundPool.load(getApplicationContext(), R.raw.char1win, 1));
+////                winSoundPool.play(winSoundPoolMap.get(1), streamVolume, streamVolume, 1, 0, 1f);
+////                final MediaPlayer charwin1 = MediaPlayer.create(this, R.raw.char1win);
+////                final MediaPlayer charwin2 = MediaPlayer.create(this, R.raw.char2win);
+////                final MediaPlayer charwin3 = MediaPlayer.create(this, R.raw.char3win);
+//
+//
+//            } catch (IllegalStateException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//        @Override
+//        protected void onProgressUpdate(String... values) {
+//            super.onProgressUpdate(values);
+//        }
+//
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//        }
+//
+//    }
+//
+//    //SOUND FILES
+//    //Here we go
+//
+//    //Store these in a service call them when needed.
+//
+//    //Charlotte
+//////Get win lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.char1win);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.char2win);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.char3win);
+//
+//    //Get lose lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.charlose);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.charlose2);
+//
+//    //Get Draw Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.chartye);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.chartye2);
+//
+//    //Get Place Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.charego1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.chargo2);
+//
+//    //Get Pick Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.charpick1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.charpick2);
+//
+//    //Elliott
+////Get win lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellwin1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellwin2);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellwin3);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellwin4);
+//
+//    //Get lose lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellose5);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellose1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellose2);
+//
+//    //Get Draw Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellose3);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellose4);
+//
+//    //Get Place Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellcoat);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellmove);
+//
+//    //Get Pick Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellpick1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.ellpick1);
+//
+//    //Dyson
+////Get win lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//
+//    //Get lose lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//
+//    //Get Draw Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//
+//    //Get Place Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//
+//    //Get Pick Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//
+//    //Elycia
+////Get win lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elywin1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elywin2);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elywin3);
+//
+//    //Get lose lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elylose1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elylose2);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elylose3);
+//
+//    //Get Draw Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elytie);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elytie2);
+//
+//    //Get Place Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elygo1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.elygo1);
+//
+//    //Get Pick Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.);
+//
+//    //Matt
+////Get win lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matwin1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matwin2);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matwin3);
+//
+//    //Get lose lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matlose1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matlose2);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matlose3);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matlose4);
+//
+//    //Get Draw Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.mattye);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.mattye2);
+//
+//    //Get Place Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matgo);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matgo2);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matgo3);
+//
+//    //Get Pick Lines
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matpick1);
+//    final MediaPlayer mp = MediaPlayer.create(this, R.raw.matpick2);
 
 }

@@ -1,6 +1,7 @@
 package com.example.t00055219.tictacded;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,9 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        final MediaPlayer splashme = MediaPlayer.create(this, R.raw.chargo2);
+        splashme.start();
         Thread timerThread = new Thread() {
             public void run() {
                 try {
