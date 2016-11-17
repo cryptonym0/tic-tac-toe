@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.Random;
+
 import static com.example.t00055219.tictacded.PlayGame.filled;
 
 public class EnterNames extends AppCompatActivity {
@@ -22,7 +24,7 @@ public class EnterNames extends AppCompatActivity {
     String p1="", p2="", p1Saved="", p2Saved="";
     String p1c="", p2c="", p1cSaved="", p2cSaved="";
     Toast g;
-    int toggleD =1;
+
 
     //Shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -33,6 +35,7 @@ public class EnterNames extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_names);
+
 
         p1Input = (EditText)findViewById(R.id.p1EnterName);
         p2Input = (EditText)findViewById(R.id.p2EnterName);
@@ -292,25 +295,56 @@ public class EnterNames extends AppCompatActivity {
     }
 
     public void pickSounds(String myGuy){
-        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elypick2);
+        Random rand = new Random();
+        int r = rand.nextInt(4);
+        Log.d("CHECK", "Random:"+r);
+        final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elypick);
+        final MediaPlayer a2pick = MediaPlayer.create(this, R.raw.elypick2);
+
         final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matpick1);
+        final MediaPlayer b2pick = MediaPlayer.create(this, R.raw.matpick2);
+
         final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.charpick1);
+        final MediaPlayer c2pick = MediaPlayer.create(this, R.raw.charpick2);
+
         final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dypick);
         final MediaPlayer d2pick = MediaPlayer.create(this, R.raw.dypick2);
+        final MediaPlayer d3pick = MediaPlayer.create(this, R.raw.dypick3);
         final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellpick1);
-        if(myGuy=="ap"){a1pick.start();}
-        if(myGuy=="bp"){b1pick.start();}
-        if(myGuy=="cp"){c1pick.start();}
-        if(myGuy=="dp"){
-            if(toggleD==1){
-                d1pick.start();
-                toggleD=2;
-            }
-            else{
-                d2pick.start();
+        final MediaPlayer e2pick = MediaPlayer.create(this, R.raw.ellpick2);
+        if(myGuy=="ap"){
+            if (r > 2) {
+                a1pick.start();
+            } else {
+                a2pick.start();
             }
         }
-        if(myGuy=="ep"){e1pick.start();}
+        if(myGuy=="bp"){
+            if (r > 2) {
+                b1pick.start();
+            } else {
+                b2pick.start();
+            }
+        }
+        if(myGuy=="cp") {
+            if (r > 2) {
+                c1pick.start();
+            } else {
+                c2pick.start();
+            }
+        }
+        if(myGuy=="dp"){
+            if(r==2){d1pick.start();}
+            else if(r==3){d3pick.start();}
+            else{d2pick.start();}
+        }
+        if(myGuy=="ep"){
+            if(r>2) {
+                e1pick.start();
+            }else {
+                e2pick.start();
+            }
+        }
     }
 
 }
