@@ -27,6 +27,7 @@ import static android.R.id.toggle;
 import static com.example.t00055219.tictacded.R.id.currentPlayer;
 import static com.example.t00055219.tictacded.R.id.p1Img;
 import static com.example.t00055219.tictacded.R.id.p2Img;
+import static com.example.t00055219.tictacded.R.string.p1;
 import static com.example.t00055219.tictacded.R.string.p2;
 
 
@@ -37,9 +38,7 @@ public class PlayGame extends AppCompatActivity {
     String p2Name = "Player 2";
     int p1Win =0, p2Win =0;
     String p1c="", p2c="";
-    int p1resID, p2resID;
-    Random rand = new Random();
-
+    int toggleMe;
 
     //Variables for current Player
     int turn = 1;
@@ -85,6 +84,9 @@ public class PlayGame extends AppCompatActivity {
         p2c = values.getString("p2c", "p2c");
         editor.apply();
 
+        Log.d("Check Player", "Before " + p1c);
+        noCharacterCheckMe();
+        Log.d("Check Player", "After " + p1c);
         //Create Players
         Player player1 = new Player(PlayGame.this);
         Player player2 = new Player(PlayGame.this);
@@ -111,6 +113,30 @@ public class PlayGame extends AppCompatActivity {
         setOnClickListeners();
         reset();//Reset values
 
+    }
+
+    public void noCharacterCheckMe() {
+        //See if no value was entered
+        Log.d("PIC", "" + p1c);
+        if(p1c=="p1c"){
+            if(p2c=="ap"){
+                p1c="bp";
+            }
+            else{
+                p1c="ap";
+            }
+        }
+        if(p2c=="p2c"){
+            if(p1c=="cp"){
+                p1c="dp";
+            }
+            else{
+                p2c="cp";
+            }
+        }
+        editor.putString("p1c", p1c);
+        editor.putString("p2c", p2c);
+        editor.apply();
     }
 
     //Options action
@@ -539,6 +565,7 @@ public class PlayGame extends AppCompatActivity {
         if(myGuy=="dp"){d1pick.start();}
         if(myGuy=="ep"){e1pick.start();}
     }
+
 
 
 

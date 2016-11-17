@@ -20,8 +20,9 @@ public class EnterNames extends AppCompatActivity {
     EditText p1Input, p2Input;
     ImageButton ap1, bp1, cp1, dp1, ep1, ap2, bp2, cp2, dp2, ep2;
     String p1="", p2="", p1Saved="", p2Saved="";
-    String p1c="", p2c="";
+    String p1c="", p2c="", p1cSaved="", p2cSaved="";
     Toast g;
+    int toggleD =1;
 
     //Shared Preferences
     public static final String PREFS_NAME = "MyPreferenceFile";
@@ -61,6 +62,7 @@ public class EnterNames extends AppCompatActivity {
         dp2 = (ImageButton)findViewById(R.id.dp2);
         ep2 = (ImageButton)findViewById(R.id.ep2);
 
+
     }
 
     private View.OnClickListener saveNames = new View.OnClickListener(){
@@ -73,9 +75,12 @@ public class EnterNames extends AppCompatActivity {
             //Check current
             p1Saved = values.getString("p1", "Player 1");
             p2Saved = values.getString("p2", "Player 2");
+            p1cSaved = values.getString("p1c", p1c);
+            p2cSaved = values.getString("p1c", p2c);
 
             noValueCheckMe();
             resetCheckMe();
+            noCharacterCheckMe();
             shareMe();
             startGame();
 
@@ -221,6 +226,31 @@ public class EnterNames extends AppCompatActivity {
         }
     }
 
+    public void noCharacterCheckMe() {
+        //See if no value was entered
+        Log.d("PIC", "" + p1c);
+        if(p1c=="p1c"){
+            if(p2c=="ap"){
+                p1c="bp";
+            }
+            else{
+                p1c="ap";
+            }
+        }
+        if(p2c=="p2c"){
+            if(p1c=="cp"){
+                p1c="dp";
+            }
+            else{
+                p2c="cp";
+            }
+        }
+        editor.putString("p1c", p1c);
+        editor.putString("p2c", p2c);
+        editor.apply();
+    }
+
+
     //Score Reset Check
     public void resetCheckMe(){
         if(!p1.equals(p1Saved) || !p2.equals(p2Saved)){
@@ -260,16 +290,27 @@ public class EnterNames extends AppCompatActivity {
         startActivity(gameIntent);
         finish();//Close this activity
     }
+
     public void pickSounds(String myGuy){
         final MediaPlayer a1pick = MediaPlayer.create(this, R.raw.elypick2);
         final MediaPlayer b1pick = MediaPlayer.create(this, R.raw.matpick1);
         final MediaPlayer c1pick = MediaPlayer.create(this, R.raw.charpick1);
         final MediaPlayer d1pick = MediaPlayer.create(this, R.raw.dypick);
+        final MediaPlayer d2pick = MediaPlayer.create(this, R.raw.dypick2);
         final MediaPlayer e1pick = MediaPlayer.create(this, R.raw.ellpick1);
         if(myGuy=="ap"){a1pick.start();}
         if(myGuy=="bp"){b1pick.start();}
         if(myGuy=="cp"){c1pick.start();}
-        if(myGuy=="dp"){d1pick.start();}
+        if(myGuy=="dp"){
+            if(toggleD==1){
+                d1pick.start();
+                toggleD=2;
+            }
+            else{
+                d2pick.start();
+            }
+        }
         if(myGuy=="ep"){e1pick.start();}
     }
+
 }

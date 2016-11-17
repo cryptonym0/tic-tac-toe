@@ -29,10 +29,6 @@ public class Player{
 
     }
     public void setEmotions(String c){
-        happy = mContext.getResources().getIdentifier("char_a_win", "drawable", mContext.getPackageName());
-        sad = mContext.getResources().getIdentifier("char_a_sad", "drawable", mContext.getPackageName());
-        mad = mContext.getResources().getIdentifier("char_a_mad", "drawable", mContext.getPackageName());
-        neutral = mContext.getResources().getIdentifier("char_a_neutral", "drawable", mContext.getPackageName());
         if(c==""){
             happy = mContext.getResources().getIdentifier("char_a_win", "drawable", mContext.getPackageName());
             sad = mContext.getResources().getIdentifier("char_a_sad", "drawable", mContext.getPackageName());
@@ -75,7 +71,6 @@ public class Player{
             mad = mContext.getResources().getIdentifier("ai_mad", "drawable", mContext.getPackageName());
             neutral = mContext.getResources().getIdentifier("ai_neutral", "drawable", mContext.getPackageName());
         }
-
     }
 
     public int getHappy(){

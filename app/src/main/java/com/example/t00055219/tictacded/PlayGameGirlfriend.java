@@ -43,9 +43,9 @@ public class PlayGameGirlfriend extends AppCompatActivity {
 
     //bool
     boolean win = false;
-
+    boolean isGF;
     //Toast
-    private Toast g, h;
+    private Toast g, h, f;
 
     //Array for board
     public static int[] filled = new int[9];
@@ -70,12 +70,16 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         p1Name              = values.getString("p1", "Player 1");
         p1c                 = values.getString("p1c", "p1c");
         editor.apply();
+
         g                   = Toast.makeText(getApplicationContext(), "You Can't Go There!", Toast.LENGTH_SHORT);
+        f                   = Toast.makeText(getApplicationContext(), "Wait Your Turn", Toast.LENGTH_SHORT);
         h                   = Toast.makeText(getApplicationContext(), "Press Rest To Start A New Game", Toast.LENGTH_SHORT);
         //Players
         b                   = new ImageButton[9];
         pCurrent            = (TextView) findViewById(currentPlayer);
         pWin                = (TextView) findViewById(winView);
+
+        noCharacterCheckMe();
         Player player1      = new Player(PlayGameGirlfriend.this);
         Player girlfriend   = new Player(PlayGameGirlfriend.this);
         player1.setEmotions(p1c);
@@ -90,6 +94,12 @@ public class PlayGameGirlfriend extends AppCompatActivity {
 
     }
 
+    public void noCharacterCheckMe() {
+        //See if no value was entered
+        if(p1c.toString().length()==0){
+                p1c="dp";
+        }
+    }
 
     //Options action
     public View.OnClickListener optionAction = new View.OnClickListener() {
@@ -259,8 +269,15 @@ public class PlayGameGirlfriend extends AppCompatActivity {
                     }//Button Switch
                 }
                 else{
-                    Girlfriend gf = new Girlfriend();
-                    gf.execute(currentButton);
+                    if(isGF){
+                        Log.d("ISGF", "TRUE");
+                        f.show();
+                    }
+                    else {
+                        Log.d("ISGF", "FALSE");
+                        Girlfriend gf = new Girlfriend();
+                        gf.execute(currentButton);
+                    }
                 }
 
             }
@@ -295,6 +312,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
 //        toggleTurn(lastTurn, turn);
         if (turn == 1) {
             pCurrent.setText(p1Name + "'s Turn");
+            isGF = false;
         } else if (turn == 2) {
             aiFace.setImageResource(ais);
             pWin.setText("hmm..");
@@ -303,6 +321,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             int x =rand.nextInt(8);
             Girlfriend gf = new Girlfriend();
             gf.execute(x);
+            isGF = true;
         }
         pWin.setText("");
     }
@@ -623,6 +642,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
         public int makeMove(int index)
         {
             Log.d("AI's Move", ""+index);
+            isGF=true;
             aiArr[index] = "X";
             if(gameOver(aiArr)) { return -1; }
             if(drawGame(aiArr)) { return -2; }
@@ -634,6 +654,7 @@ public class PlayGameGirlfriend extends AppCompatActivity {
             pCurrent.setText(p1Name + "'s Turn");
             checkWin(turn);
             turn = 1;
+            isGF = false;
             if(gameOver(aiArr)) { return i+20;}
             if(drawGame(aiArr)) { return i-30;}
             return i;
